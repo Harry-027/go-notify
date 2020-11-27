@@ -1,0 +1,46 @@
+version: '2'
+
+networks:
+  notification-system:
+    driver: bridge
+
+services:
+  zookeeper-server:
+    image: 'bitnami/zookeeper:latest'
+    networks:
+      - notification-system
+    ports:
+      - '2181:2181'
+    environment:
+      - ALLOW_ANONYMOUS_LOGIN=yes
+  kafka-server:
+    image: 'bitnami/kafka:latest'
+    networks:
+      - notification-system
+    ports:
+      - '9092:9092'
+    environment:
+      - KAFKA_CFG_ZOOKEEPER_CONNECT=zookeeper-server:2181
+      - KAFKA_CFG_ADVERTISED_LISTENERS=PLAINTEXT://localhost:9092
+      - ALLOW_PLAINTEXT_LISTENER=yes
+    depends_on:
+      - zookeeper-server
+  postgres12:
+    image: postgres:12-alpine
+    networks:
+      - notification-system
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_PASSWORD: secret
+      POSTGRES_USER: root
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+  redis:
+    image: redis
+    networks:
+      - notification-system
+    ports:
+      - "6379:6379"
+volumes:
+  pgdata:

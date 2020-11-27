@@ -1,0 +1,3 @@
+To run the Prometheus and Grafana monitoring, run the below command under monitoring directory :
+
+docker-compose up -d --build

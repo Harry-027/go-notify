@@ -1,0 +1,9 @@
+version: '2'
+
+services:
+  k6:
+    image: 'loadimpact/k6:latest'
+    ports:
+      - "6565:6565"
+    volumes:
+      - "./tests:/tests"

@@ -1,0 +1,3 @@
+To run the load test, run the below command under loadtesting directory :
+
+docker-compose run k6 run ./tests/loadtests.js

@@ -1,0 +1,980 @@
+definitions:
+  config.ApiResponse:
+    properties:
+      message:
+        type: string
+      status:
+        type: string
+    type: object
+  models.DeleteJob:
+    properties:
+      jobId:
+        type: integer
+    type: object
+  models.DeleteTemplateInput:
+    properties:
+      clientMailID:
+        type: string
+      key:
+        type: string
+    type: object
+  models.ForgotPassword:
+    properties:
+      email:
+        type: string
+    type: object
+  models.LoginInput:
+    properties:
+      email:
+        type: string
+      password:
+        type: string
+    type: object
+  models.SendMailInput:
+    properties:
+      clientId:
+        type: integer
+      templateId:
+        type: integer
+    type: object
+  models.SignupInput:
+    properties:
+      confirm_password:
+        type: string
+      email:
+        type: string
+      password:
+        type: string
+      role:
+        type: string
+    type: object
+  models.SubscriptionInput:
+    properties:
+      paymentType:
+        type: string
+      subscriptionType:
+        type: string
+    type: object
+  models.SwaggerClient:
+    properties:
+      mailID:
+        type: string
+      name:
+        type: string
+      phone:
+        type: integer
+      preference:
+        type: string
+    type: object
+  models.SwaggerTemplate:
+    properties:
+      body:
+        type: string
+      name:
+        type: string
+      subject:
+        type: string
+    type: object
+  models.UpdatePassword:
+    properties:
+      email:
+        type: string
+      password:
+        type: string
+    type: object
+  models.VariableTemplateInput:
+    properties:
+      clientMailID:
+        type: string
+      key:
+        type: string
+      value:
+        type: string
+    type: object
+info:
+  contact: {}
+paths:
+  /api/addTemplate:
+    post:
+      consumes:
+      - application/json
+      description: Add the mail template
+      parameters:
+      - description: Add the template details
+        in: body
+        name: Body
+        required: true
+        schema:
+          $ref: '#/definitions/models.SwaggerTemplate'
+      - description: Authentication header
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/gg.ApiResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/gg.ApiResponse'
+        "412":
+          description: Precondition Failed
+          schema:
+            $ref: '#/definitions/gg.ApiResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/gg.ApiResponse'
+      security:
+      - ApiKeyAuth: []
+      summary: Add the mail template
+      tags:
+      - Add template
+  /api/clientDetails:
+    delete:
+      consumes:
+      - application/json
+      description: Delete the user variable
+      parameters:
+      - description: Authentication header
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      - description: delete user variable
+        in: body
+        name: Body
+        required: true
+        schema:
+          $ref: '#/definitions/models.DeleteTemplateInput'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/gg.ApiResponse'
+        "204":
+          description: No Content
+          schema:
+            $ref: '#/definitions/gg.ApiResponse'
+        "403":
+          description: Forbidden
+          schema:
+            $ref: '#/definitions/gg.ApiResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/gg.ApiResponse'
+      security:
+      - ApiKeyAuth: []
+      summary: Delete the user variable
+      tags:
+      - Delete user variable
+    get:
+      consumes:
+      - application/json
+      description: Fetch the client variable
+      parameters:
+      - description: client ID
+        in: path
+        name: clientID
+        required: true
+        type: string
+      - description: Authentication header
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/gg.ApiResponse'
+        "403":
+          description: Forbidden
+          schema:
+            $ref: '#/definitions/gg.ApiResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/gg.ApiResponse'
+      security:
+      - ApiKeyAuth: []
+      summary: Fetch the client variable (variable that can be replaced in a given
+        email template)
+      tags:
+      - Fetch Client variable
+    post:
+      consumes:
+      - application/json
+      description: Add the user variable
+      parameters:
+      - description: Add the template details
+        in: body
+        name: Body
+        required: true
+        schema:
+          $ref: '#/definitions/models.VariableTemplateInput'
+      - description: Authentication header
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/gg.ApiResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/gg.ApiResponse'
+        "424":
+          description: Failed Dependency
+          schema:
+            $ref: '#/definitions/gg.ApiResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/gg.ApiResponse'
+      security:
+      - ApiKeyAuth: []
+      summary: Add the user variable
+      tags:
+      - Add user variable
+  /api/clients:
+    get:
+      consumes:
+      - application/json
+      description: Fetch the clients
+      parameters:
+      - description: Authentication header
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/models.SwaggerClient'
+            type: array
+        "204":
+          description: No Content
+          schema:
+            $ref: '#/definitions/gg.ApiResponse'
+      security:
+      - ApiKeyAuth: []
+      summary: Fetch the clients
+      tags:
+      - Fetch Client
+    post:
+      consumes:
+      - application/json
+      description: Adds the clients for a logged in user
+      parameters:
+      - description: Add the client details
+        in: body
+        name: Body
+        required: true
+        schema:
+          items:
+            $ref: '#/definitions/models.SwaggerClient'
+          type: array
+      - description: Authentication header
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/gg.ApiResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/gg.ApiResponse'
+      security:
+      - ApiKeyAuth: []
+      summary: Registers the client details
+      tags:
+      - Add Client
+  /api/deleteClient:
+    delete:
+      consumes:
+      - application/json
+      description: Delete the client
+      parameters:
+      - description: mail id
+        in: path
+        name: mailId
+        required: true
+        type: string
+      - description: Authentication header
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/gg.ApiResponse'
+        "204":
+          description: No Content
+          schema:
+            $ref: '#/definitions/gg.ApiResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/gg.ApiResponse'
+      security:
+      - ApiKeyAuth: []
+      summary: Delete the client
+      tags:
+      - Delete Client
+  /api/deleteScheduleMail:
+    post:
+      consumes:
+      - application/json
+      description: Deletes the scheduled job for sending mail
+      parameters:
+      - description: Authentication header
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      - description: Delete job Input
+        in: body
+        name: Body
+        required: true
+        schema:
+          $ref: '#/definitions/models.DeleteJob'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/gg.ApiResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/gg.ApiResponse'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/gg.ApiResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/gg.ApiResponse'
+      security:
+      - ApiKeyAuth: []
+      summary: Deletes the scheduled job
+      tags:
+      - Delete Scheduled Job
+  /api/deleteTemplate:
+    delete:
+      consumes:
+      - application/json
+      description: Delete the template
+      parameters:
+      - description: mail id
+        in: path
+        name: id
+        required: true
+        type: string
+      - description: Authentication header
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/gg.ApiResponse'
+        "204":
+          description: No Content
+          schema:
+            $ref: '#/definitions/gg.ApiResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/gg.ApiResponse'
+      security:
+      - ApiKeyAuth: []
+      summary: Delete the template
+      tags:
+      - Delete Template
+  /api/getTemplates:
+    get:
+      consumes:
+      - application/json
+      description: Fetch all the registered mail templates
+      parameters:
+      - description: Authentication header
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/gg.ApiResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/gg.ApiResponse'
+      security:
+      - ApiKeyAuth: []
+      summary: Fetch the templates
+      tags:
+      - Template details
+  /api/scheduleMail:
+    post:
+      consumes:
+      - application/json
+      description: schedule the mail for clients
+      parameters:
+      - description: Send Mail Input
+        in: body
+        name: Body
+        required: true
+        schema:
+          items:
+            $ref: '#/definitions/models.SendMailInput'
+          type: array
+      - description: Authentication header
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/gg.ApiResponse'
+        "204":
+          description: No Content
+          schema:
+            $ref: '#/definitions/gg.ApiResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/gg.ApiResponse'
+        "417":
+          description: Expectation Failed
+          schema:
+            $ref: '#/definitions/gg.ApiResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/gg.ApiResponse'
+      security:
+      - ApiKeyAuth: []
+      summary: schedule the mail for clients
+      tags:
+      - Schedule Mail
+  /api/sendMail:
+    post:
+      consumes:
+      - application/json
+      description: Sends the mail to the registered client
+      parameters:
+      - description: Send Mail Input
+        in: body
+        name: Body
+        required: true
+        schema:
+          items:
+            $ref: '#/definitions/models.SendMailInput'
+          type: array
+      - description: Authentication header
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/gg.ApiResponse'
+        "204":
+          description: No Content
+          schema:
+            $ref: '#/definitions/gg.ApiResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/gg.ApiResponse'
+        "417":
+          description: Expectation Failed
+          schema:
+            $ref: '#/definitions/gg.ApiResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/gg.ApiResponse'
+      security:
+      - ApiKeyAuth: []
+      summary: Send mail to client
+      tags:
+      - Send Mail
+  /api/subscribe:
+    post:
+      consumes:
+      - application/json
+      description: user can subscribe to a specific plan
+      parameters:
+      - description: subscription details
+        in: body
+        name: Body
+        required: true
+        schema:
+          $ref: '#/definitions/models.SubscriptionInput'
+      - description: Authentication header
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/gg.ApiResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/gg.ApiResponse'
+        "424":
+          description: Failed Dependency
+          schema:
+            $ref: '#/definitions/gg.ApiResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/gg.ApiResponse'
+      security:
+      - ApiKeyAuth: []
+      summary: User subscription
+      tags:
+      - Subscribe
+  /api/subscriptionDetails:
+    get:
+      consumes:
+      - application/json
+      description: Get the current subscription details
+      parameters:
+      - description: Authentication header
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/gg.ApiResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/gg.ApiResponse'
+      security:
+      - ApiKeyAuth: []
+      summary: Current subscription details
+      tags:
+      - Subscription details
+  /api/updateClient:
+    put:
+      consumes:
+      - application/json
+      description: Update the client details
+      parameters:
+      - description: client details
+        in: body
+        name: Body
+        required: true
+        schema:
+          $ref: '#/definitions/models.SwaggerClient'
+      - description: mail id
+        in: path
+        name: mailId
+        required: true
+        type: string
+      - description: Authentication header
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/gg.ApiResponse'
+        "204":
+          description: No Content
+          schema:
+            $ref: '#/definitions/gg.ApiResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/gg.ApiResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/gg.ApiResponse'
+      security:
+      - ApiKeyAuth: []
+      summary: Update the client details
+      tags:
+      - Update Client
+  /api/updateTemplate:
+    put:
+      consumes:
+      - application/json
+      description: Update the template details
+      parameters:
+      - description: template id
+        in: path
+        name: id
+        required: true
+        type: string
+      - description: Authentication header
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/gg.ApiResponse'
+        "204":
+          description: No Content
+          schema:
+            $ref: '#/definitions/gg.ApiResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/gg.ApiResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/gg.ApiResponse'
+      security:
+      - ApiKeyAuth: []
+      summary: Update the template
+      tags:
+      - Update Template
+  /api/users:
+    get:
+      consumes:
+      - application/json
+      description: Fetch the users registered in system
+      parameters:
+      - description: Authentication header
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/gg.ApiResponse'
+        "403":
+          description: Forbidden
+          schema:
+            $ref: '#/definitions/gg.ApiResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/gg.ApiResponse'
+      security:
+      - ApiKeyAuth: []
+      summary: Fetch the users
+      tags:
+      - Get User
+  /auth/forgotPassword:
+    post:
+      consumes:
+      - application/json
+      description: ForgotPassword
+      parameters:
+      - description: forgot password
+        in: body
+        name: Body
+        required: true
+        schema:
+          $ref: '#/definitions/models.ForgotPassword'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/gg.ApiResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/gg.ApiResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/gg.ApiResponse'
+      summary: ForgotPassword
+      tags:
+      - ForgotPassword
+  /auth/getNewPassword:
+    post:
+      consumes:
+      - application/json
+      description: GetNewPassword
+      parameters:
+      - description: uuid
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/gg.ApiResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/gg.ApiResponse'
+        "412":
+          description: Precondition Failed
+          schema:
+            $ref: '#/definitions/gg.ApiResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/gg.ApiResponse'
+      summary: GetNewPassword
+      tags:
+      - GetNewPassword
+  /auth/login:
+    post:
+      consumes:
+      - application/json
+      description: Authenticates a user and provides jwt token
+      parameters:
+      - description: User login
+        in: body
+        name: Body
+        required: true
+        schema:
+          $ref: '#/definitions/models.LoginInput'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/gg.ApiResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/gg.ApiResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/gg.ApiResponse'
+      summary: Authenticate the user
+      tags:
+      - login
+  /auth/requestNewPassword:
+    get:
+      consumes:
+      - application/json
+      description: RequestNewPassword
+      parameters:
+      - description: uuid
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/gg.ApiResponse'
+        "412":
+          description: Precondition Failed
+          schema:
+            $ref: '#/definitions/gg.ApiResponse'
+      summary: RequestNewPassword
+      tags:
+      - RequestNewPassword
+  /auth/signup:
+    post:
+      consumes:
+      - application/json
+      description: Registers the user account
+      parameters:
+      - description: User SignupDetails
+        in: body
+        name: Body
+        required: true
+        schema:
+          $ref: '#/definitions/models.SignupInput'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/gg.ApiResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/gg.ApiResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/gg.ApiResponse'
+      summary: The user account registration
+      tags:
+      - signup
+  /privacy/deleteAccount:
+    delete:
+      consumes:
+      - application/json
+      description: Deletes the user account permanently. All the data gets lost permanently
+      parameters:
+      - description: Authentication header
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/gg.ApiResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/gg.ApiResponse'
+      security:
+      - ApiKeyAuth: []
+      summary: Delete the User Account
+      tags:
+      - Delete the Account
+  /privacy/logout:
+    post:
+      consumes:
+      - application/json
+      description: Logout
+      parameters:
+      - description: Authentication header
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/gg.ApiResponse'
+      security:
+      - ApiKeyAuth: []
+      summary: Logout
+      tags:
+      - Logout
+  /privacy/updatePassword:
+    post:
+      consumes:
+      - application/json
+      description: Helps the user to update the password
+      parameters:
+      - description: Update Password
+        in: body
+        name: Body
+        required: true
+        schema:
+          $ref: '#/definitions/models.UpdatePassword'
+      - description: Authentication header
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/gg.ApiResponse'
+        "204":
+          description: No Content
+          schema:
+            $ref: '#/definitions/gg.ApiResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/gg.ApiResponse'
+        "412":
+          description: Precondition Failed
+          schema:
+            $ref: '#/definitions/gg.ApiResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/gg.ApiResponse'
+      security:
+      - ApiKeyAuth: []
+      summary: The user password update
+      tags:
+      - UpdatePassword
+swagger: "2.0"
