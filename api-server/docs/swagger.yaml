@@ -77,8 +77,6 @@ definitions:
     type: object
   models.UpdatePassword:
     properties:
-      email:
-        type: string
       password:
         type: string
     type: object
@@ -117,24 +115,43 @@ paths:
         "201":
           description: Created
           schema:
-            $ref: '#/definitions/gg.ApiResponse'
+            $ref: '#/definitions/config.ApiResponse'
         "400":
           description: Bad Request
           schema:
-            $ref: '#/definitions/gg.ApiResponse'
+            $ref: '#/definitions/config.ApiResponse'
         "412":
           description: Precondition Failed
           schema:
-            $ref: '#/definitions/gg.ApiResponse'
+            $ref: '#/definitions/config.ApiResponse'
         "500":
           description: Internal Server Error
           schema:
-            $ref: '#/definitions/gg.ApiResponse'
+            $ref: '#/definitions/config.ApiResponse'
       security:
       - ApiKeyAuth: []
       summary: Add the mail template
       tags:
       - Add template
+  /api/checkAuditLog:
+    get:
+      consumes:
+      - application/json
+      description: CheckAuditLog
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/config.ApiResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/config.ApiResponse'
+      summary: CheckAuditLog
+      tags:
+      - CheckAuditLog
   /api/clientDetails:
     delete:
       consumes:
@@ -158,19 +175,19 @@ paths:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/gg.ApiResponse'
+            $ref: '#/definitions/config.ApiResponse'
         "204":
           description: No Content
           schema:
-            $ref: '#/definitions/gg.ApiResponse'
+            $ref: '#/definitions/config.ApiResponse'
         "403":
           description: Forbidden
           schema:
-            $ref: '#/definitions/gg.ApiResponse'
+            $ref: '#/definitions/config.ApiResponse'
         "500":
           description: Internal Server Error
           schema:
-            $ref: '#/definitions/gg.ApiResponse'
+            $ref: '#/definitions/config.ApiResponse'
       security:
       - ApiKeyAuth: []
       summary: Delete the user variable
@@ -197,15 +214,15 @@ paths:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/gg.ApiResponse'
+            $ref: '#/definitions/config.ApiResponse'
         "403":
           description: Forbidden
           schema:
-            $ref: '#/definitions/gg.ApiResponse'
+            $ref: '#/definitions/config.ApiResponse'
         "500":
           description: Internal Server Error
           schema:
-            $ref: '#/definitions/gg.ApiResponse'
+            $ref: '#/definitions/config.ApiResponse'
       security:
       - ApiKeyAuth: []
       summary: Fetch the client variable (variable that can be replaced in a given
@@ -234,19 +251,19 @@ paths:
         "201":
           description: Created
           schema:
-            $ref: '#/definitions/gg.ApiResponse'
+            $ref: '#/definitions/config.ApiResponse'
         "400":
           description: Bad Request
           schema:
-            $ref: '#/definitions/gg.ApiResponse'
+            $ref: '#/definitions/config.ApiResponse'
         "424":
           description: Failed Dependency
           schema:
-            $ref: '#/definitions/gg.ApiResponse'
+            $ref: '#/definitions/config.ApiResponse'
         "500":
           description: Internal Server Error
           schema:
-            $ref: '#/definitions/gg.ApiResponse'
+            $ref: '#/definitions/config.ApiResponse'
       security:
       - ApiKeyAuth: []
       summary: Add the user variable
@@ -275,7 +292,7 @@ paths:
         "204":
           description: No Content
           schema:
-            $ref: '#/definitions/gg.ApiResponse'
+            $ref: '#/definitions/config.ApiResponse'
       security:
       - ApiKeyAuth: []
       summary: Fetch the clients
@@ -305,11 +322,11 @@ paths:
         "201":
           description: Created
           schema:
-            $ref: '#/definitions/gg.ApiResponse'
+            $ref: '#/definitions/config.ApiResponse'
         "400":
           description: Bad Request
           schema:
-            $ref: '#/definitions/gg.ApiResponse'
+            $ref: '#/definitions/config.ApiResponse'
       security:
       - ApiKeyAuth: []
       summary: Registers the client details
@@ -337,15 +354,15 @@ paths:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/gg.ApiResponse'
+            $ref: '#/definitions/config.ApiResponse'
         "204":
           description: No Content
           schema:
-            $ref: '#/definitions/gg.ApiResponse'
+            $ref: '#/definitions/config.ApiResponse'
         "500":
           description: Internal Server Error
           schema:
-            $ref: '#/definitions/gg.ApiResponse'
+            $ref: '#/definitions/config.ApiResponse'
       security:
       - ApiKeyAuth: []
       summary: Delete the client
@@ -374,19 +391,19 @@ paths:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/gg.ApiResponse'
+            $ref: '#/definitions/config.ApiResponse'
         "400":
           description: Bad Request
           schema:
-            $ref: '#/definitions/gg.ApiResponse'
+            $ref: '#/definitions/config.ApiResponse'
         "401":
           description: Unauthorized
           schema:
-            $ref: '#/definitions/gg.ApiResponse'
+            $ref: '#/definitions/config.ApiResponse'
         "500":
           description: Internal Server Error
           schema:
-            $ref: '#/definitions/gg.ApiResponse'
+            $ref: '#/definitions/config.ApiResponse'
       security:
       - ApiKeyAuth: []
       summary: Deletes the scheduled job
@@ -414,15 +431,15 @@ paths:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/gg.ApiResponse'
+            $ref: '#/definitions/config.ApiResponse'
         "204":
           description: No Content
           schema:
-            $ref: '#/definitions/gg.ApiResponse'
+            $ref: '#/definitions/config.ApiResponse'
         "500":
           description: Internal Server Error
           schema:
-            $ref: '#/definitions/gg.ApiResponse'
+            $ref: '#/definitions/config.ApiResponse'
       security:
       - ApiKeyAuth: []
       summary: Delete the template
@@ -445,11 +462,11 @@ paths:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/gg.ApiResponse'
+            $ref: '#/definitions/config.ApiResponse'
         "500":
           description: Internal Server Error
           schema:
-            $ref: '#/definitions/gg.ApiResponse'
+            $ref: '#/definitions/config.ApiResponse'
       security:
       - ApiKeyAuth: []
       summary: Fetch the templates
@@ -480,23 +497,23 @@ paths:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/gg.ApiResponse'
+            $ref: '#/definitions/config.ApiResponse'
         "204":
           description: No Content
           schema:
-            $ref: '#/definitions/gg.ApiResponse'
+            $ref: '#/definitions/config.ApiResponse'
         "400":
           description: Bad Request
           schema:
-            $ref: '#/definitions/gg.ApiResponse'
+            $ref: '#/definitions/config.ApiResponse'
         "417":
           description: Expectation Failed
           schema:
-            $ref: '#/definitions/gg.ApiResponse'
+            $ref: '#/definitions/config.ApiResponse'
         "500":
           description: Internal Server Error
           schema:
-            $ref: '#/definitions/gg.ApiResponse'
+            $ref: '#/definitions/config.ApiResponse'
       security:
       - ApiKeyAuth: []
       summary: schedule the mail for clients
@@ -527,23 +544,23 @@ paths:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/gg.ApiResponse'
+            $ref: '#/definitions/config.ApiResponse'
         "204":
           description: No Content
           schema:
-            $ref: '#/definitions/gg.ApiResponse'
+            $ref: '#/definitions/config.ApiResponse'
         "400":
           description: Bad Request
           schema:
-            $ref: '#/definitions/gg.ApiResponse'
+            $ref: '#/definitions/config.ApiResponse'
         "417":
           description: Expectation Failed
           schema:
-            $ref: '#/definitions/gg.ApiResponse'
+            $ref: '#/definitions/config.ApiResponse'
         "500":
           description: Internal Server Error
           schema:
-            $ref: '#/definitions/gg.ApiResponse'
+            $ref: '#/definitions/config.ApiResponse'
       security:
       - ApiKeyAuth: []
       summary: Send mail to client
@@ -572,19 +589,19 @@ paths:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/gg.ApiResponse'
+            $ref: '#/definitions/config.ApiResponse'
         "400":
           description: Bad Request
           schema:
-            $ref: '#/definitions/gg.ApiResponse'
+            $ref: '#/definitions/config.ApiResponse'
         "424":
           description: Failed Dependency
           schema:
-            $ref: '#/definitions/gg.ApiResponse'
+            $ref: '#/definitions/config.ApiResponse'
         "500":
           description: Internal Server Error
           schema:
-            $ref: '#/definitions/gg.ApiResponse'
+            $ref: '#/definitions/config.ApiResponse'
       security:
       - ApiKeyAuth: []
       summary: User subscription
@@ -607,11 +624,11 @@ paths:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/gg.ApiResponse'
+            $ref: '#/definitions/config.ApiResponse'
         "500":
           description: Internal Server Error
           schema:
-            $ref: '#/definitions/gg.ApiResponse'
+            $ref: '#/definitions/config.ApiResponse'
       security:
       - ApiKeyAuth: []
       summary: Current subscription details
@@ -645,19 +662,19 @@ paths:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/gg.ApiResponse'
+            $ref: '#/definitions/config.ApiResponse'
         "204":
           description: No Content
           schema:
-            $ref: '#/definitions/gg.ApiResponse'
+            $ref: '#/definitions/config.ApiResponse'
         "400":
           description: Bad Request
           schema:
-            $ref: '#/definitions/gg.ApiResponse'
+            $ref: '#/definitions/config.ApiResponse'
         "500":
           description: Internal Server Error
           schema:
-            $ref: '#/definitions/gg.ApiResponse'
+            $ref: '#/definitions/config.ApiResponse'
       security:
       - ApiKeyAuth: []
       summary: Update the client details
@@ -685,19 +702,19 @@ paths:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/gg.ApiResponse'
+            $ref: '#/definitions/config.ApiResponse'
         "204":
           description: No Content
           schema:
-            $ref: '#/definitions/gg.ApiResponse'
+            $ref: '#/definitions/config.ApiResponse'
         "400":
           description: Bad Request
           schema:
-            $ref: '#/definitions/gg.ApiResponse'
+            $ref: '#/definitions/config.ApiResponse'
         "500":
           description: Internal Server Error
           schema:
-            $ref: '#/definitions/gg.ApiResponse'
+            $ref: '#/definitions/config.ApiResponse'
       security:
       - ApiKeyAuth: []
       summary: Update the template
@@ -720,15 +737,15 @@ paths:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/gg.ApiResponse'
+            $ref: '#/definitions/config.ApiResponse'
         "403":
           description: Forbidden
           schema:
-            $ref: '#/definitions/gg.ApiResponse'
+            $ref: '#/definitions/config.ApiResponse'
         "500":
           description: Internal Server Error
           schema:
-            $ref: '#/definitions/gg.ApiResponse'
+            $ref: '#/definitions/config.ApiResponse'
       security:
       - ApiKeyAuth: []
       summary: Fetch the users
@@ -752,15 +769,15 @@ paths:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/gg.ApiResponse'
+            $ref: '#/definitions/config.ApiResponse'
         "400":
           description: Bad Request
           schema:
-            $ref: '#/definitions/gg.ApiResponse'
+            $ref: '#/definitions/config.ApiResponse'
         "500":
           description: Internal Server Error
           schema:
-            $ref: '#/definitions/gg.ApiResponse'
+            $ref: '#/definitions/config.ApiResponse'
       summary: ForgotPassword
       tags:
       - ForgotPassword
@@ -781,19 +798,19 @@ paths:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/gg.ApiResponse'
+            $ref: '#/definitions/config.ApiResponse'
         "400":
           description: Bad Request
           schema:
-            $ref: '#/definitions/gg.ApiResponse'
+            $ref: '#/definitions/config.ApiResponse'
         "412":
           description: Precondition Failed
           schema:
-            $ref: '#/definitions/gg.ApiResponse'
+            $ref: '#/definitions/config.ApiResponse'
         "500":
           description: Internal Server Error
           schema:
-            $ref: '#/definitions/gg.ApiResponse'
+            $ref: '#/definitions/config.ApiResponse'
       summary: GetNewPassword
       tags:
       - GetNewPassword
@@ -815,43 +832,18 @@ paths:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/gg.ApiResponse'
+            $ref: '#/definitions/config.ApiResponse'
         "400":
           description: Bad Request
           schema:
-            $ref: '#/definitions/gg.ApiResponse'
+            $ref: '#/definitions/config.ApiResponse'
         "500":
           description: Internal Server Error
           schema:
-            $ref: '#/definitions/gg.ApiResponse'
+            $ref: '#/definitions/config.ApiResponse'
       summary: Authenticate the user
       tags:
       - login
-  /auth/requestNewPassword:
-    get:
-      consumes:
-      - application/json
-      description: RequestNewPassword
-      parameters:
-      - description: uuid
-        in: path
-        name: id
-        required: true
-        type: string
-      produces:
-      - application/json
-      responses:
-        "200":
-          description: OK
-          schema:
-            $ref: '#/definitions/gg.ApiResponse'
-        "412":
-          description: Precondition Failed
-          schema:
-            $ref: '#/definitions/gg.ApiResponse'
-      summary: RequestNewPassword
-      tags:
-      - RequestNewPassword
   /auth/signup:
     post:
       consumes:
@@ -870,15 +862,15 @@ paths:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/gg.ApiResponse'
+            $ref: '#/definitions/config.ApiResponse'
         "400":
           description: Bad Request
           schema:
-            $ref: '#/definitions/gg.ApiResponse'
+            $ref: '#/definitions/config.ApiResponse'
         "500":
           description: Internal Server Error
           schema:
-            $ref: '#/definitions/gg.ApiResponse'
+            $ref: '#/definitions/config.ApiResponse'
       summary: The user account registration
       tags:
       - signup
@@ -899,11 +891,11 @@ paths:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/gg.ApiResponse'
+            $ref: '#/definitions/config.ApiResponse'
         "500":
           description: Internal Server Error
           schema:
-            $ref: '#/definitions/gg.ApiResponse'
+            $ref: '#/definitions/config.ApiResponse'
       security:
       - ApiKeyAuth: []
       summary: Delete the User Account
@@ -926,7 +918,7 @@ paths:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/gg.ApiResponse'
+            $ref: '#/definitions/config.ApiResponse'
       security:
       - ApiKeyAuth: []
       summary: Logout
@@ -955,23 +947,23 @@ paths:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/gg.ApiResponse'
+            $ref: '#/definitions/config.ApiResponse'
         "204":
           description: No Content
           schema:
-            $ref: '#/definitions/gg.ApiResponse'
+            $ref: '#/definitions/config.ApiResponse'
         "400":
           description: Bad Request
           schema:
-            $ref: '#/definitions/gg.ApiResponse'
+            $ref: '#/definitions/config.ApiResponse'
         "412":
           description: Precondition Failed
           schema:
-            $ref: '#/definitions/gg.ApiResponse'
+            $ref: '#/definitions/config.ApiResponse'
         "500":
           description: Internal Server Error
           schema:
-            $ref: '#/definitions/gg.ApiResponse'
+            $ref: '#/definitions/config.ApiResponse'
       security:
       - ApiKeyAuth: []
       summary: The user password update

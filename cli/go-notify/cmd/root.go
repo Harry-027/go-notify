@@ -7,7 +7,7 @@ import (
 // Cobra root command ...
 var RootCmd = &cobra.Command{
 	Use: "go-notify",
-	Short: "A CLI for a marketing tool: go-notify that lets users to send (HTML template based) custom emails (scheduled/immediate) to their clients(leads/prospects) in bulk. \n" +
+	Short: "A CLI for an email marketing tool: go-notify that lets users to register & schedule/send custom mails to their clients(leads/prospects). \n" +
 		"*) Sign-up \n" +
 		"*) Login \n" +
 		"*) Update password \n" +

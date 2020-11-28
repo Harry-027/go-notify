@@ -58,7 +58,8 @@ func AddClients(ctx *fiber.Ctx) error {
 		err := repository.AddClient(client)
 		if err != nil {
 			log.Println("An error occurred while saving client :: ", err.Error())
-			dbSaveError = append(dbSaveError, err.Error())
+			errMsg := fmt.Sprintf("An error occurred while saving client :: %s", client.Name)
+			dbSaveError = append(dbSaveError, errMsg)
 		}
 		addedClient, _ := repository.GetClientByMailId(client.MailId)
 		nameField := models.Field{
@@ -74,8 +75,9 @@ func AddClients(ctx *fiber.Ctx) error {
 		err = repository.AddClientFields(nameField)
 		err = repository.AddClientFields(mailField)
 		if err != nil {
+			errMsg := fmt.Sprintf("An error occurred while saving client Field:: %s", client.Name)
 			log.Println("An error occurred while saving client fields :: ", err.Error())
-			dbSaveError = append(dbSaveError, err.Error())
+			dbSaveError = append(dbSaveError, errMsg)
 		}
 	}
 	key := fmt.Sprintf("Clients:%d", userIdentifier)
@@ -156,12 +158,12 @@ func GetTemplates(ctx *fiber.Ctx) error {
 	if ifExists {
 		result, err := Cache.getDetails(cacheKey)
 		if err == nil {
-			resultStr := fmt.Sprintf("%v", result)
-			unmarshalErr := json.Unmarshal([]byte(resultStr), &templates)
+			unmarshalErr := json.Unmarshal([]byte(result), &templates)
 			if unmarshalErr != nil {
 				log.Println("An error occurred while fetching template: ", unmarshalErr.Error())
 				return utils.ApiResponse(ctx, fiber.StatusInternalServerError, config.ApiConst[config.INTERNAL_SERVER_ERROR])
 			}
+			log.Println("Serving templates from cache ...")
 		}
 	} else {
 		templates, err = repository.GetTemplateByUserId(userIdentifier)
@@ -267,7 +269,7 @@ func Subscribe(ctx *fiber.Ctx) error {
 		return utils.ApiResponse(ctx, fiber.StatusInternalServerError, config.ApiConst[config.INTERNAL_SERVER_ERROR])
 	}
 
-	user.NotificationCounter = tokens
+	user.NotificationCounter = user.NotificationCounter + tokens
 	user.Subscription = subs.SubscriptionType
 	err = repository.UpdateUserDetails(user)
 	if err != nil {
@@ -508,12 +510,12 @@ func GetUsers(ctx *fiber.Ctx) error {
 		if ifExists {
 			cachedUsers, err := Cache.getDetails(cacheKey)
 			if err == nil {
-				resultStr := fmt.Sprintf("%v", cachedUsers)
-				unmarshalErr := json.Unmarshal([]byte(resultStr), &users)
+				unmarshalErr := json.Unmarshal([]byte(cachedUsers), &users)
 				if unmarshalErr != nil {
 					log.Println("An error occurred while fetching details: ", unmarshalErr.Error())
 					return utils.ApiResponse(ctx, fiber.StatusInternalServerError, config.ApiConst[config.INTERNAL_SERVER_ERROR])
 				}
+				log.Println("Serving users from cache ...")
 			}
 		} else {
 			users, err = repository.GetAllUsers()
@@ -586,16 +588,18 @@ func GetClients(ctx *fiber.Ctx) error {
 	var err error
 	userIdentifier := int(ctx.Locals("user_id").(float64))
 	cacheKey := fmt.Sprintf("Clients:%d", userIdentifier)
+	log.Println("cacheKey: ", cacheKey)
 	ifExists, _ := Cache.ifExistsInCache(cacheKey)
 	if ifExists {
 		cachedClients, err := Cache.getDetails(cacheKey)
+		log.Println("Cached clients: ", cachedClients)
 		if err == nil {
-			resultStr := fmt.Sprintf("%v", cachedClients)
-			unmarshalErr := json.Unmarshal([]byte(resultStr), &clients)
+			unmarshalErr := json.Unmarshal([]byte(cachedClients), &clients)
 			if unmarshalErr != nil {
 				log.Println("An error occurred while fetching clients: ", unmarshalErr.Error())
 				return utils.ApiResponse(ctx, fiber.StatusInternalServerError, config.ApiConst[config.INTERNAL_SERVER_ERROR])
 			}
+			log.Println("Serving clients from cache ...")
 		}
 	} else {
 		clients, err = repository.GetClientsByUserId(userIdentifier)
@@ -626,8 +630,8 @@ func GetClients(ctx *fiber.Ctx) error {
 // @Router /privacy/logout [post]
 func Logout(ctx *fiber.Ctx) error {
 	userIdentifier := int(ctx.Locals("user_id").(float64))
-	uuid := ctx.Locals("uuid")
-	repository.InvalidateCurrentSession(userIdentifier, uuid)
+	uuidDetail := ctx.Locals("uuid")
+	repository.InvalidateCurrentSession(userIdentifier, uuidDetail)
 	return ctx.SendStatus(fiber.StatusOK)
 }
 
@@ -657,19 +661,20 @@ func ForgotPassword(ctx *fiber.Ctx) error {
 	user, err := repository.GetUserByName(forgotPasswd.Email)
 	if err != nil {
 		log.Println("Invalid User .. User doesn't exists")
-		return utils.ApiResponse(ctx, fiber.StatusInternalServerError, config.ApiConst[config.INTERNAL_SERVER_ERROR])
+		return utils.ApiResponse(ctx, fiber.StatusBadRequest, config.ApiConst[config.BAD_REQUEST])
 	}
 
 	cacheKey := uuid.NewV4().String()
 	cacheValue := user.Name
 	Cache.setDetails(cacheKey, cacheValue)
-	Cache.setExpiry(cacheKey, 300)
+	Cache.setExpiry(cacheKey, 3000)
 
-	content := fmt.Sprintf("Follow link http://localhost:3001/requestNewPassword/%s to update new password. Request is valid for 5 minutes.", cacheKey)
+	content := fmt.Sprintf("Post new password on given link: http://localhost:3001/auth/getNewPassword/%s to update your password. Request is valid for 5 minutes.", cacheKey)
 	kafkaPayload := models.ForgotPasswordPayload{
 		To:      user.Name,
-		From:    "System",
-		Content: content,
+		From:    config.GetConfig("MAILGUN_FROM"),
+		Text: content,
+		Subject: "Password Reset",
 	}
 
 	log.Println("kafka Payload :: ", kafkaPayload)
@@ -688,29 +693,6 @@ func ForgotPassword(ctx *fiber.Ctx) error {
 	return utils.ApiResponseWithCustomMsg(ctx, fiber.StatusOK, resp)
 }
 
-// RequestNewPassword godoc
-// @Summary RequestNewPassword
-// @Description RequestNewPassword
-// @Tags RequestNewPassword
-// @Accept json
-// @Produce json
-// @Param id path string true "uuid"
-// @Success 200 {object} config.ApiResponse{}
-// @Failure 412 {object} config.ApiResponse{}
-// @Router /auth/requestNewPassword [get]
-func RequestNewPassword(ctx *fiber.Ctx) error {
-	cacheKey := ctx.Params("id")
-	mail, _ := Cache.getDetails(cacheKey)
-	url := fmt.Sprintf("http://localhost:3001/getNewPassword/%s", cacheKey)
-	if mail != nil {
-		return ctx.Render("newPassword", fiber.Map{
-			"Url": url,
-		})
-	}
-	resp := fiber.Map{"status": "Error", "message": "Request to change password has been expired"}
-	return utils.ApiResponseWithCustomMsg(ctx, fiber.StatusPreconditionFailed, resp)
-}
-
 // GetNewPassword godoc
 // @Summary GetNewPassword
 // @Description GetNewPassword
@@ -727,22 +709,50 @@ func GetNewPassword(ctx *fiber.Ctx) error {
 	var pwd models.NewPassword
 	cacheKey := ctx.Params("id")
 	mail, _ := Cache.getDetails(cacheKey)
-	if mail != nil {
+	if mail != "" {
 		err := ctx.BodyParser(&pwd)
 		if err != nil {
 			return utils.ApiResponse(ctx, fiber.StatusBadRequest, config.ApiConst[config.BAD_REQUEST])
 		}
-		mailStr := fmt.Sprintf("%v", mail)
-		user := models.User{
-			Name: mailStr,
-			Password: pwd.Password,
-		}
-		err = repository.UpdateUserDetails(user)
+		user, err := repository.GetUserByName(mail)
 		if err != nil {
 			return utils.ApiResponse(ctx, fiber.StatusInternalServerError, config.ApiConst[config.INTERNAL_SERVER_ERROR])
 		}
+		hashPassword, _ := utils.HashPassword(pwd.Password)
+		err = repository.UpdateUserPassword(int(user.ID), hashPassword)
+		if err != nil {
+			return utils.ApiResponse(ctx, fiber.StatusInternalServerError, config.ApiConst[config.INTERNAL_SERVER_ERROR])
+		}
+		repository.InvalidateAllSessions(int(user.ID))
 		return utils.ApiResponse(ctx, fiber.StatusOK, config.ApiConst[config.SUCCESS_PWD_CHANGE])
 	}
 	resp := fiber.Map{"status": "Error", "message": "Request to change password has been expired"}
 	return utils.ApiResponseWithCustomMsg(ctx, fiber.StatusPreconditionFailed, resp)
+}
+
+// CheckAuditLog godoc
+// @Summary CheckAuditLog
+// @Description CheckAuditLog
+// @Tags CheckAuditLog
+// @Accept json
+// @Produce json
+// @Success 200 {object} config.ApiResponse{}
+// @Failure 500 {object} config.ApiResponse{}
+// @Router /api/checkAuditLog [get]
+func CheckAuditLog(ctx *fiber.Ctx) error {
+	var auditDetails []fiber.Map
+	userIdentifier := int(ctx.Locals("user_id").(float64))
+	user, _ := repository.GetUserById(userIdentifier)
+	if user.ID == 0 {
+		return utils.ApiResponse(ctx, fiber.StatusInternalServerError, config.ApiConst[config.INTERNAL_SERVER_ERROR])
+	}
+	audits, err := repository.GetAuditLog(user.ID)
+	if err != nil {
+		return utils.ApiResponse(ctx, fiber.StatusInternalServerError, config.ApiConst[config.INTERNAL_SERVER_ERROR])
+	}
+	for _, audit := range audits {
+		details := fiber.Map{"To": audit.To, "template": audit.TemplateName, "SentOn": audit.CreatedAt}
+		auditDetails = append(auditDetails, details)
+	}
+	return ctx.Status(fiber.StatusOK).JSON(auditDetails)
 }

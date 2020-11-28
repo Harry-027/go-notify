@@ -34,7 +34,7 @@ func GetJob(id uint) (models.Job, error) {
 }
 
 func DeleteJob(id uint) error {
-	dbc := DB.Model(&models.Job{}).Where("id = ?", id).Update("Status", "INACTIVE")
+	dbc := DB.Where("id = ?", id).Unscoped().Delete(&models.Job{})
 	if dbc.Error != nil {
 		log.Println("An error occurred while transaction ::", dbc.Error.Error())
 		return dbc.Error
@@ -60,4 +60,23 @@ func GetPendingJobs() ([]models.Job, error) {
 		return []models.Job{}, dbc.Error
 	}
 	return jobs, nil
+}
+
+func SaveAuditLog(audit models.Audit) error {
+	dbc := DB.Create(&audit)
+	if dbc.Error != nil {
+		log.Println("An error occurred while saving audit log :: ", dbc.Error.Error())
+		return dbc.Error
+	}
+	return nil
+}
+
+func GetAuditLog(id uint) ([]models.Audit, error) {
+	var audits []models.Audit
+	dbc := DB.Where("from_user = ?", id).Find(&audits)
+	if dbc.Error != nil {
+		log.Println("An error occurred while checking audit log :: ", dbc.Error.Error())
+		return []models.Audit{}, dbc.Error
+	}
+	return audits, nil
 }

@@ -94,21 +94,28 @@ func SaveUserAuth(auth models.Auth) error {
 }
 
 func IfUsersCurrentSession(uuid interface{}) bool {
-	var user models.User
-	dbc := DB.Where("uuid = ?", uuid).Find(&user)
+	var auth models.Auth
+	dbc := DB.Where("uuid = ?", uuid).Find(&auth)
 	if dbc.Error != nil {
 		log.Println("An error occurred :: ", dbc.Error.Error())
 		return false
 	}
-	if user.ID == 0 {
+	if auth.UserID == 0 {
 		return false
 	}
 	return true
 }
 
 func InvalidateCurrentSession(userID int, uuid interface{}) {
-	dbc := DB.Where("user_id = ? AND uuid = ?", userID, uuid).Unscoped().Delete(&models.User{})
+	dbc := DB.Where("user_id = ? AND uuid = ?", userID, uuid).Unscoped().Delete(&models.Auth{})
 	if dbc.Error != nil {
 		log.Println("An error occurred while deleting user session", dbc.Error.Error())
+	}
+}
+
+func InvalidateAllSessions(userID int) {
+	dbc := DB.Where("user_id = ?", userID).Unscoped().Delete(&models.Auth{})
+	if dbc.Error != nil {
+		log.Println("An error occurred while deleting user sessions", dbc.Error.Error())
 	}
 }

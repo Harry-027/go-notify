@@ -28,8 +28,7 @@ func RedisPoolInit() {
 func (cache *CacheConn) setDetails(key, value string) error {
 	conn := cache.pool.Get()
 	defer conn.Close()
-
-	reply, err := conn.Do("HMSET", key, value)
+	reply, err := conn.Do("SET", key, value)
 	if err != nil {
 		log.Println("Error while setting key: ", err)
 		return err
@@ -45,14 +44,13 @@ func (cache *CacheConn) setDetails(key, value string) error {
 	return nil
 }
 
-func (cache *CacheConn) getDetails(key string) (interface{}, error) {
+func (cache *CacheConn) getDetails(key string) (string, error) {
 	conn := cache.pool.Get()
 	defer conn.Close()
-
-	reply, err := conn.Do("HGET", key)
+	reply, err := redis.String(conn.Do("GET", key))
 	if err != nil {
 		log.Println("An error occurred while fetching key from cache", err.Error())
-		return nil, err
+		return "", err
 	}
 	return reply, nil
 }
@@ -60,8 +58,8 @@ func (cache *CacheConn) getDetails(key string) (interface{}, error) {
 func (cache *CacheConn) ifExistsInCache(key string) (bool, error) {
 	conn := cache.pool.Get()
 	defer conn.Close()
-
 	exists, err := redis.Int(conn.Do("EXISTS", key))
+	log.Println("Exists in cache: ", exists)
 	if err != nil {
 		log.Println("An error occurred while checking if the key exists in cache", err.Error())
 		return false, err
@@ -75,7 +73,6 @@ func (cache *CacheConn) ifExistsInCache(key string) (bool, error) {
 func (cache *CacheConn) deleteKey(key string) (bool, error) {
 	conn := cache.pool.Get()
 	defer conn.Close()
-
 	_, err := redis.Int(conn.Do("DEL", key))
 	if err != nil {
 		log.Println("An error occurred while deleting key from cache: ", err.Error())

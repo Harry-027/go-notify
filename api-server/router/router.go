@@ -14,7 +14,6 @@ func SetupRoutes(app *fiber.App) {
 	auth.Post("/login", handler.Login)
 	auth.Post("/signup", handler.Signup)
 	auth.Post("/forgotPassword", handler.ForgotPassword)
-	auth.Get("/requestNewPassword/:id", handler.RequestNewPassword)
 	auth.Post("/getNewPassword/:id", handler.GetNewPassword)
 	//Privacy
 	privacy := app.Group("/privacy", middleware.Protected())
@@ -43,7 +42,7 @@ func SetupRoutes(app *fiber.App) {
 	user.Post("/sendMail", handler.SendMail)
 	user.Post("/scheduleMail", handler.ScheduleMail)
 	user.Post("/deleteScheduleMail", handler.DeleteScheduleMail)
-
+	user.Get("/checkAuditLog", handler.CheckAuditLog)
 	// swagger
 	app.Get("/swagger/*", swagger.Handler) // default
 }

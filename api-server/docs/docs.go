@@ -64,25 +64,54 @@ var doc = `{
                     "201": {
                         "description": "Created",
                         "schema": {
-                            "$ref": "#/definitions/gg.ApiResponse"
+                            "$ref": "#/definitions/config.ApiResponse"
                         }
                     },
                     "400": {
                         "description": "Bad Request",
                         "schema": {
-                            "$ref": "#/definitions/gg.ApiResponse"
+                            "$ref": "#/definitions/config.ApiResponse"
                         }
                     },
                     "412": {
                         "description": "Precondition Failed",
                         "schema": {
-                            "$ref": "#/definitions/gg.ApiResponse"
+                            "$ref": "#/definitions/config.ApiResponse"
                         }
                     },
                     "500": {
                         "description": "Internal Server Error",
                         "schema": {
-                            "$ref": "#/definitions/gg.ApiResponse"
+                            "$ref": "#/definitions/config.ApiResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/checkAuditLog": {
+            "get": {
+                "description": "CheckAuditLog",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "CheckAuditLog"
+                ],
+                "summary": "CheckAuditLog",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/config.ApiResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/config.ApiResponse"
                         }
                     }
                 }
@@ -126,19 +155,19 @@ var doc = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/gg.ApiResponse"
+                            "$ref": "#/definitions/config.ApiResponse"
                         }
                     },
                     "403": {
                         "description": "Forbidden",
                         "schema": {
-                            "$ref": "#/definitions/gg.ApiResponse"
+                            "$ref": "#/definitions/config.ApiResponse"
                         }
                     },
                     "500": {
                         "description": "Internal Server Error",
                         "schema": {
-                            "$ref": "#/definitions/gg.ApiResponse"
+                            "$ref": "#/definitions/config.ApiResponse"
                         }
                     }
                 }
@@ -182,25 +211,25 @@ var doc = `{
                     "201": {
                         "description": "Created",
                         "schema": {
-                            "$ref": "#/definitions/gg.ApiResponse"
+                            "$ref": "#/definitions/config.ApiResponse"
                         }
                     },
                     "400": {
                         "description": "Bad Request",
                         "schema": {
-                            "$ref": "#/definitions/gg.ApiResponse"
+                            "$ref": "#/definitions/config.ApiResponse"
                         }
                     },
                     "424": {
                         "description": "Failed Dependency",
                         "schema": {
-                            "$ref": "#/definitions/gg.ApiResponse"
+                            "$ref": "#/definitions/config.ApiResponse"
                         }
                     },
                     "500": {
                         "description": "Internal Server Error",
                         "schema": {
-                            "$ref": "#/definitions/gg.ApiResponse"
+                            "$ref": "#/definitions/config.ApiResponse"
                         }
                     }
                 }
@@ -244,25 +273,25 @@ var doc = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/gg.ApiResponse"
+                            "$ref": "#/definitions/config.ApiResponse"
                         }
                     },
                     "204": {
                         "description": "No Content",
                         "schema": {
-                            "$ref": "#/definitions/gg.ApiResponse"
+                            "$ref": "#/definitions/config.ApiResponse"
                         }
                     },
                     "403": {
                         "description": "Forbidden",
                         "schema": {
-                            "$ref": "#/definitions/gg.ApiResponse"
+                            "$ref": "#/definitions/config.ApiResponse"
                         }
                     },
                     "500": {
                         "description": "Internal Server Error",
                         "schema": {
-                            "$ref": "#/definitions/gg.ApiResponse"
+                            "$ref": "#/definitions/config.ApiResponse"
                         }
                     }
                 }
@@ -308,7 +337,7 @@ var doc = `{
                     "204": {
                         "description": "No Content",
                         "schema": {
-                            "$ref": "#/definitions/gg.ApiResponse"
+                            "$ref": "#/definitions/config.ApiResponse"
                         }
                     }
                 }
@@ -355,13 +384,13 @@ var doc = `{
                     "201": {
                         "description": "Created",
                         "schema": {
-                            "$ref": "#/definitions/gg.ApiResponse"
+                            "$ref": "#/definitions/config.ApiResponse"
                         }
                     },
                     "400": {
                         "description": "Bad Request",
                         "schema": {
-                            "$ref": "#/definitions/gg.ApiResponse"
+                            "$ref": "#/definitions/config.ApiResponse"
                         }
                     }
                 }
@@ -405,19 +434,19 @@ var doc = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/gg.ApiResponse"
+                            "$ref": "#/definitions/config.ApiResponse"
                         }
                     },
                     "204": {
                         "description": "No Content",
                         "schema": {
-                            "$ref": "#/definitions/gg.ApiResponse"
+                            "$ref": "#/definitions/config.ApiResponse"
                         }
                     },
                     "500": {
                         "description": "Internal Server Error",
                         "schema": {
-                            "$ref": "#/definitions/gg.ApiResponse"
+                            "$ref": "#/definitions/config.ApiResponse"
                         }
                     }
                 }
@@ -463,25 +492,25 @@ var doc = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/gg.ApiResponse"
+                            "$ref": "#/definitions/config.ApiResponse"
                         }
                     },
                     "400": {
                         "description": "Bad Request",
                         "schema": {
-                            "$ref": "#/definitions/gg.ApiResponse"
+                            "$ref": "#/definitions/config.ApiResponse"
                         }
                     },
                     "401": {
                         "description": "Unauthorized",
                         "schema": {
-                            "$ref": "#/definitions/gg.ApiResponse"
+                            "$ref": "#/definitions/config.ApiResponse"
                         }
                     },
                     "500": {
                         "description": "Internal Server Error",
                         "schema": {
-                            "$ref": "#/definitions/gg.ApiResponse"
+                            "$ref": "#/definitions/config.ApiResponse"
                         }
                     }
                 }
@@ -525,19 +554,19 @@ var doc = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/gg.ApiResponse"
+                            "$ref": "#/definitions/config.ApiResponse"
                         }
                     },
                     "204": {
                         "description": "No Content",
                         "schema": {
-                            "$ref": "#/definitions/gg.ApiResponse"
+                            "$ref": "#/definitions/config.ApiResponse"
                         }
                     },
                     "500": {
                         "description": "Internal Server Error",
                         "schema": {
-                            "$ref": "#/definitions/gg.ApiResponse"
+                            "$ref": "#/definitions/config.ApiResponse"
                         }
                     }
                 }
@@ -574,13 +603,13 @@ var doc = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/gg.ApiResponse"
+                            "$ref": "#/definitions/config.ApiResponse"
                         }
                     },
                     "500": {
                         "description": "Internal Server Error",
                         "schema": {
-                            "$ref": "#/definitions/gg.ApiResponse"
+                            "$ref": "#/definitions/config.ApiResponse"
                         }
                     }
                 }
@@ -629,31 +658,31 @@ var doc = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/gg.ApiResponse"
+                            "$ref": "#/definitions/config.ApiResponse"
                         }
                     },
                     "204": {
                         "description": "No Content",
                         "schema": {
-                            "$ref": "#/definitions/gg.ApiResponse"
+                            "$ref": "#/definitions/config.ApiResponse"
                         }
                     },
                     "400": {
                         "description": "Bad Request",
                         "schema": {
-                            "$ref": "#/definitions/gg.ApiResponse"
+                            "$ref": "#/definitions/config.ApiResponse"
                         }
                     },
                     "417": {
                         "description": "Expectation Failed",
                         "schema": {
-                            "$ref": "#/definitions/gg.ApiResponse"
+                            "$ref": "#/definitions/config.ApiResponse"
                         }
                     },
                     "500": {
                         "description": "Internal Server Error",
                         "schema": {
-                            "$ref": "#/definitions/gg.ApiResponse"
+                            "$ref": "#/definitions/config.ApiResponse"
                         }
                     }
                 }
@@ -702,31 +731,31 @@ var doc = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/gg.ApiResponse"
+                            "$ref": "#/definitions/config.ApiResponse"
                         }
                     },
                     "204": {
                         "description": "No Content",
                         "schema": {
-                            "$ref": "#/definitions/gg.ApiResponse"
+                            "$ref": "#/definitions/config.ApiResponse"
                         }
                     },
                     "400": {
                         "description": "Bad Request",
                         "schema": {
-                            "$ref": "#/definitions/gg.ApiResponse"
+                            "$ref": "#/definitions/config.ApiResponse"
                         }
                     },
                     "417": {
                         "description": "Expectation Failed",
                         "schema": {
-                            "$ref": "#/definitions/gg.ApiResponse"
+                            "$ref": "#/definitions/config.ApiResponse"
                         }
                     },
                     "500": {
                         "description": "Internal Server Error",
                         "schema": {
-                            "$ref": "#/definitions/gg.ApiResponse"
+                            "$ref": "#/definitions/config.ApiResponse"
                         }
                     }
                 }
@@ -772,25 +801,25 @@ var doc = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/gg.ApiResponse"
+                            "$ref": "#/definitions/config.ApiResponse"
                         }
                     },
                     "400": {
                         "description": "Bad Request",
                         "schema": {
-                            "$ref": "#/definitions/gg.ApiResponse"
+                            "$ref": "#/definitions/config.ApiResponse"
                         }
                     },
                     "424": {
                         "description": "Failed Dependency",
                         "schema": {
-                            "$ref": "#/definitions/gg.ApiResponse"
+                            "$ref": "#/definitions/config.ApiResponse"
                         }
                     },
                     "500": {
                         "description": "Internal Server Error",
                         "schema": {
-                            "$ref": "#/definitions/gg.ApiResponse"
+                            "$ref": "#/definitions/config.ApiResponse"
                         }
                     }
                 }
@@ -827,13 +856,13 @@ var doc = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/gg.ApiResponse"
+                            "$ref": "#/definitions/config.ApiResponse"
                         }
                     },
                     "500": {
                         "description": "Internal Server Error",
                         "schema": {
-                            "$ref": "#/definitions/gg.ApiResponse"
+                            "$ref": "#/definitions/config.ApiResponse"
                         }
                     }
                 }
@@ -886,25 +915,25 @@ var doc = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/gg.ApiResponse"
+                            "$ref": "#/definitions/config.ApiResponse"
                         }
                     },
                     "204": {
                         "description": "No Content",
                         "schema": {
-                            "$ref": "#/definitions/gg.ApiResponse"
+                            "$ref": "#/definitions/config.ApiResponse"
                         }
                     },
                     "400": {
                         "description": "Bad Request",
                         "schema": {
-                            "$ref": "#/definitions/gg.ApiResponse"
+                            "$ref": "#/definitions/config.ApiResponse"
                         }
                     },
                     "500": {
                         "description": "Internal Server Error",
                         "schema": {
-                            "$ref": "#/definitions/gg.ApiResponse"
+                            "$ref": "#/definitions/config.ApiResponse"
                         }
                     }
                 }
@@ -948,25 +977,25 @@ var doc = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/gg.ApiResponse"
+                            "$ref": "#/definitions/config.ApiResponse"
                         }
                     },
                     "204": {
                         "description": "No Content",
                         "schema": {
-                            "$ref": "#/definitions/gg.ApiResponse"
+                            "$ref": "#/definitions/config.ApiResponse"
                         }
                     },
                     "400": {
                         "description": "Bad Request",
                         "schema": {
-                            "$ref": "#/definitions/gg.ApiResponse"
+                            "$ref": "#/definitions/config.ApiResponse"
                         }
                     },
                     "500": {
                         "description": "Internal Server Error",
                         "schema": {
-                            "$ref": "#/definitions/gg.ApiResponse"
+                            "$ref": "#/definitions/config.ApiResponse"
                         }
                     }
                 }
@@ -1003,19 +1032,19 @@ var doc = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/gg.ApiResponse"
+                            "$ref": "#/definitions/config.ApiResponse"
                         }
                     },
                     "403": {
                         "description": "Forbidden",
                         "schema": {
-                            "$ref": "#/definitions/gg.ApiResponse"
+                            "$ref": "#/definitions/config.ApiResponse"
                         }
                     },
                     "500": {
                         "description": "Internal Server Error",
                         "schema": {
-                            "$ref": "#/definitions/gg.ApiResponse"
+                            "$ref": "#/definitions/config.ApiResponse"
                         }
                     }
                 }
@@ -1049,19 +1078,19 @@ var doc = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/gg.ApiResponse"
+                            "$ref": "#/definitions/config.ApiResponse"
                         }
                     },
                     "400": {
                         "description": "Bad Request",
                         "schema": {
-                            "$ref": "#/definitions/gg.ApiResponse"
+                            "$ref": "#/definitions/config.ApiResponse"
                         }
                     },
                     "500": {
                         "description": "Internal Server Error",
                         "schema": {
-                            "$ref": "#/definitions/gg.ApiResponse"
+                            "$ref": "#/definitions/config.ApiResponse"
                         }
                     }
                 }
@@ -1093,25 +1122,25 @@ var doc = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/gg.ApiResponse"
+                            "$ref": "#/definitions/config.ApiResponse"
                         }
                     },
                     "400": {
                         "description": "Bad Request",
                         "schema": {
-                            "$ref": "#/definitions/gg.ApiResponse"
+                            "$ref": "#/definitions/config.ApiResponse"
                         }
                     },
                     "412": {
                         "description": "Precondition Failed",
                         "schema": {
-                            "$ref": "#/definitions/gg.ApiResponse"
+                            "$ref": "#/definitions/config.ApiResponse"
                         }
                     },
                     "500": {
                         "description": "Internal Server Error",
                         "schema": {
-                            "$ref": "#/definitions/gg.ApiResponse"
+                            "$ref": "#/definitions/config.ApiResponse"
                         }
                     }
                 }
@@ -1145,57 +1174,19 @@ var doc = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/gg.ApiResponse"
+                            "$ref": "#/definitions/config.ApiResponse"
                         }
                     },
                     "400": {
                         "description": "Bad Request",
                         "schema": {
-                            "$ref": "#/definitions/gg.ApiResponse"
+                            "$ref": "#/definitions/config.ApiResponse"
                         }
                     },
                     "500": {
                         "description": "Internal Server Error",
                         "schema": {
-                            "$ref": "#/definitions/gg.ApiResponse"
-                        }
-                    }
-                }
-            }
-        },
-        "/auth/requestNewPassword": {
-            "get": {
-                "description": "RequestNewPassword",
-                "consumes": [
-                    "application/json"
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "RequestNewPassword"
-                ],
-                "summary": "RequestNewPassword",
-                "parameters": [
-                    {
-                        "type": "string",
-                        "description": "uuid",
-                        "name": "id",
-                        "in": "path",
-                        "required": true
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "schema": {
-                            "$ref": "#/definitions/gg.ApiResponse"
-                        }
-                    },
-                    "412": {
-                        "description": "Precondition Failed",
-                        "schema": {
-                            "$ref": "#/definitions/gg.ApiResponse"
+                            "$ref": "#/definitions/config.ApiResponse"
                         }
                     }
                 }
@@ -1229,19 +1220,19 @@ var doc = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/gg.ApiResponse"
+                            "$ref": "#/definitions/config.ApiResponse"
                         }
                     },
                     "400": {
                         "description": "Bad Request",
                         "schema": {
-                            "$ref": "#/definitions/gg.ApiResponse"
+                            "$ref": "#/definitions/config.ApiResponse"
                         }
                     },
                     "500": {
                         "description": "Internal Server Error",
                         "schema": {
-                            "$ref": "#/definitions/gg.ApiResponse"
+                            "$ref": "#/definitions/config.ApiResponse"
                         }
                     }
                 }
@@ -1278,13 +1269,13 @@ var doc = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/gg.ApiResponse"
+                            "$ref": "#/definitions/config.ApiResponse"
                         }
                     },
                     "500": {
                         "description": "Internal Server Error",
                         "schema": {
-                            "$ref": "#/definitions/gg.ApiResponse"
+                            "$ref": "#/definitions/config.ApiResponse"
                         }
                     }
                 }
@@ -1321,7 +1312,7 @@ var doc = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/gg.ApiResponse"
+                            "$ref": "#/definitions/config.ApiResponse"
                         }
                     }
                 }
@@ -1367,31 +1358,31 @@ var doc = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/gg.ApiResponse"
+                            "$ref": "#/definitions/config.ApiResponse"
                         }
                     },
                     "204": {
                         "description": "No Content",
                         "schema": {
-                            "$ref": "#/definitions/gg.ApiResponse"
+                            "$ref": "#/definitions/config.ApiResponse"
                         }
                     },
                     "400": {
                         "description": "Bad Request",
                         "schema": {
-                            "$ref": "#/definitions/gg.ApiResponse"
+                            "$ref": "#/definitions/config.ApiResponse"
                         }
                     },
                     "412": {
                         "description": "Precondition Failed",
                         "schema": {
-                            "$ref": "#/definitions/gg.ApiResponse"
+                            "$ref": "#/definitions/config.ApiResponse"
                         }
                     },
                     "500": {
                         "description": "Internal Server Error",
                         "schema": {
-                            "$ref": "#/definitions/gg.ApiResponse"
+                            "$ref": "#/definitions/config.ApiResponse"
                         }
                     }
                 }
@@ -1399,7 +1390,7 @@ var doc = `{
         }
     },
     "definitions": {
-        "gg.ApiResponse": {
+        "config.ApiResponse": {
             "type": "object",
             "properties": {
                 "message": {
@@ -1521,9 +1512,6 @@ var doc = `{
         "models.UpdatePassword": {
             "type": "object",
             "properties": {
-                "email": {
-                    "type": "string"
-                },
                 "password": {
                     "type": "string"
                 }

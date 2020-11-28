@@ -68,6 +68,35 @@
                 }
             }
         },
+        "/api/checkAuditLog": {
+            "get": {
+                "description": "CheckAuditLog",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "CheckAuditLog"
+                ],
+                "summary": "CheckAuditLog",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/config.ApiResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/config.ApiResponse"
+                        }
+                    }
+                }
+            }
+        },
         "/api/clientDetails": {
             "get": {
                 "security": [
@@ -1143,44 +1172,6 @@
                 }
             }
         },
-        "/auth/requestNewPassword": {
-            "get": {
-                "description": "RequestNewPassword",
-                "consumes": [
-                    "application/json"
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "RequestNewPassword"
-                ],
-                "summary": "RequestNewPassword",
-                "parameters": [
-                    {
-                        "type": "string",
-                        "description": "uuid",
-                        "name": "id",
-                        "in": "path",
-                        "required": true
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "schema": {
-                            "$ref": "#/definitions/config.ApiResponse"
-                        }
-                    },
-                    "412": {
-                        "description": "Precondition Failed",
-                        "schema": {
-                            "$ref": "#/definitions/config.ApiResponse"
-                        }
-                    }
-                }
-            }
-        },
         "/auth/signup": {
             "post": {
                 "description": "Registers the user account",
@@ -1501,9 +1492,6 @@
         "models.UpdatePassword": {
             "type": "object",
             "properties": {
-                "email": {
-                    "type": "string"
-                },
                 "password": {
                     "type": "string"
                 }

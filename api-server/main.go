@@ -9,7 +9,6 @@ import (
 	"github.com/Harry-027/go-notify/api-server/router"
 	"github.com/Harry-027/go-notify/api-server/utils"
 	"github.com/gofiber/fiber/v2"
-	"github.com/gofiber/template/html"
 	_ "github.com/jinzhu/gorm/dialects/postgres"
 	"log"
 )
@@ -33,12 +32,5 @@ func pipelineSetup(app *fiber.App) {
 	conn := utils.InitKafkaConn()    // connect to kafka
 	handler.KafkaConn = conn
 	handler.RedisPoolInit()
-	setViewEngine(app)
 }
 
-func setViewEngine(app *fiber.App) {
-	engine := html.New("./views", ".html")
-	app = fiber.New(fiber.Config{
-		Views: engine,
-	})
-}

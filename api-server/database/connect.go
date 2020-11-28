@@ -18,7 +18,7 @@ func ConnectDB() {
 	if err != nil {
 		log.Fatal("failed to connect database")
 	}
-	DB.AutoMigrate(&models.User{}, &models.Client{}, &models.Field{}, &models.Template{}, &models.Job{}, &models.Auth{})
+	DB.AutoMigrate(&models.User{}, &models.Client{}, &models.Field{}, &models.Template{}, &models.Job{}, &models.Auth{}, &models.Audit{})
 	DB.Model(&models.Client{}).AddForeignKey("user_id", "users(id)", "CASCADE", "CASCADE")
 	DB.Model(&models.Field{}).AddForeignKey("client_id", "clients(id)", "CASCADE", "CASCADE")
 	DB.Model(&models.Template{}).AddForeignKey("user_id", "users(id)", "CASCADE", "CASCADE")

@@ -157,6 +157,7 @@ func UpdatePassword(ctx *fiber.Ctx) error {
 	if err != nil {
 		return utils.ApiResponse(ctx, fiber.StatusInternalServerError, config.ApiConst[config.INTERNAL_SERVER_ERROR])
 	}
+	repository.InvalidateAllSessions(userIdentifier)
 	return utils.ApiResponse(ctx, fiber.StatusOK, config.ApiConst[config.SUCCESS_PWD_CHANGE])
 }
 

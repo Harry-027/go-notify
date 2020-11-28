@@ -67,7 +67,7 @@ func SendMail(ctx *fiber.Ctx) error {
 		if err != nil {
 			msg := fmt.Sprintf("Template with templateId %s not found !!", strconv.FormatUint(uint64(detail.TemplateId), 10))
 			resp := fiber.Map{"status": "Ok", "message": msg}
-			return utils.ApiResponseWithCustomMsg(ctx, fiber.StatusNoContent, resp)
+			return utils.ApiResponseWithCustomMsg(ctx, fiber.StatusBadRequest, resp)
 		}
 		log.Println("template details :: ", template)
 
@@ -75,7 +75,7 @@ func SendMail(ctx *fiber.Ctx) error {
 		if err != nil {
 			msg := fmt.Sprintf("Client with clientId %s not found !!", strconv.FormatUint(uint64(detail.ClientId), 10))
 			resp := fiber.Map{"status": "Ok", "message": msg}
-			return utils.ApiResponseWithCustomMsg(ctx, fiber.StatusNoContent, resp)
+			return utils.ApiResponseWithCustomMsg(ctx, fiber.StatusBadRequest, resp)
 		}
 		log.Println("ClientDetails :: ", clientRecord)
 
@@ -100,6 +100,14 @@ func SendMail(ctx *fiber.Ctx) error {
 			Subject: subject,
 			Text:    bodyContent,
 		}
+		auditLog := models.Audit{
+			To:           clientRecord.MailId,
+			FromUser:     user.ID,
+			TemplateID:   template.ID,
+			TemplateName: template.Name,
+		}
+
+		_ = repository.SaveAuditLog(auditLog)
 
 		log.Println("kafka Payload :: ", kafkaPayload)
 		payload, err := json.Marshal(kafkaPayload)
@@ -169,7 +177,7 @@ func ScheduleMail(ctx *fiber.Ctx) error {
 		if err != nil {
 			msg := fmt.Sprintf("Template with templateId %s not found !!", strconv.FormatUint(uint64(detail.TemplateId), 10))
 			resp := fiber.Map{"status": "Ok", "message": msg}
-			return utils.ApiResponseWithCustomMsg(ctx, fiber.StatusNoContent, resp)
+			return utils.ApiResponseWithCustomMsg(ctx, fiber.StatusBadRequest, resp)
 		}
 		log.Println("template details :: ", template)
 
@@ -177,7 +185,7 @@ func ScheduleMail(ctx *fiber.Ctx) error {
 		if err != nil {
 			msg := fmt.Sprintf("Client with clientId %s not found !!", strconv.FormatUint(uint64(detail.ClientId), 10))
 			resp := fiber.Map{"status": "Ok", "message": msg}
-			return utils.ApiResponseWithCustomMsg(ctx, fiber.StatusNoContent, resp)
+			return utils.ApiResponseWithCustomMsg(ctx, fiber.StatusBadRequest, resp)
 		}
 		log.Println("ClientDetails :: ", clientRecord)
 		prefType := utils.GetType(clientRecord.Preference)
@@ -225,7 +233,7 @@ func DeleteScheduleMail(ctx *fiber.Ctx) error {
 
 	job, err := repository.GetJob(input.JobID)
 	if err != nil {
-		return utils.ApiResponse(ctx, fiber.StatusInternalServerError, config.ApiConst[config.INTERNAL_SERVER_ERROR])
+		return utils.ApiResponse(ctx, fiber.StatusBadRequest, config.ApiConst[config.BAD_REQUEST])
 	}
 
 	client, err := repository.GetClientById(job.ClientID)

@@ -17,7 +17,6 @@ type SignupInput struct {
 }
 
 type UpdatePassword struct {
-	Email    string `json:"email" valid:"email"`
 	Password string `json:"password" valid:"required"`
 }
 
@@ -32,7 +31,8 @@ type NewPassword struct {
 type ForgotPasswordPayload struct {
 	To      string
 	From    string
-	Content string
+	Text 	string
+	Subject string
 }
 
 type SubscriptionInput struct {

@@ -23,18 +23,18 @@ type SendMailInput struct {
 type Client struct {
 	gorm.Model
 	Name       string `json:"name" gorm:"type:varchar(50)"`
-	MailId     string `json:"mailID" valid:"email,required" gorm:"type:varchar(50);unique;not null"`
-	Phone      int    `json:"phone" valid:"required" gorm:"type:bigint;unique;not null"`
+	MailId     string `json:"mailID" valid:"email,required" gorm:"type:varchar(50);not null;unique_index:idx_first_second"`
+	Phone      int    `json:"phone" valid:"required" gorm:"type:bigint;not null"`
 	Preference string `json:"preference" gorm:"type:varchar(50)"`
-	UserID     uint
-	User       User `gorm:"constraint:OnUpdate:CASCADE,OnDelete:CASCADE;"`
+	UserID     uint   `gorm:"unique_index:idx_first_second"`
+	User       User   `gorm:"constraint:OnUpdate:CASCADE,OnDelete:CASCADE;"`
 }
 
 type Field struct {
 	gorm.Model
-	Key      string `json:"key" valid:"required" gorm:"type:varchar(50);not null"`
+	Key      string `json:"key" valid:"required" gorm:"type:varchar(50);not null;unique_index:idx_field"`
 	Value    string `json:"value" valid:"required" gorm:"type:varchar(50);not null"`
-	ClientID uint
+	ClientID uint   `gorm:"unique_index:idx_field"`
 	Client   Client `gorm:"constraint:OnUpdate:CASCADE,OnDelete:CASCADE;"`
 }
 
