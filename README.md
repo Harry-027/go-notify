@@ -27,7 +27,7 @@ It facilitate users to register, send & schedule custom HTML mails for their cli
 ## Features Included:
 ---
 * Authentication & authorization using [JWT](https://jwt.io/).
-* Swagger included built using Swago[https://github.com/swaggo/swag]
+* Swagger included built using [Swago](https://github.com/swaggo/swag)
 * Full proof auth features - signup, login, update password, forgot password, logout.
 * Cors, Helmet, Api-rate limiter included as middleware from security perspective.
 * Users can register their clients & custom HTML templates.
@@ -38,20 +38,44 @@ It facilitate users to register, send & schedule custom HTML mails for their cli
 ## Installation & setup :-
 ---
 * Go,Docker,Docker compose & Make should be pre-installed.
+* Clone the repository: `git clone https://github.com/Harry-027/go-notify.git`.
+* Run the command `make download` (this will install go modules).
+* Create a new file .env under root directory & copy the env variables from .sample-env.
+  (Note that mailgun env variables should be replaced with original credentials. Rest may remain untouched)
+* Run the command `make setup` (this will start the required docker containers - postgres, redis, apache kafka & zoo-keeper).
+* Run the command `docker ps` to ensure all the four containers are up & running.
+* Open a new terminal & run the command `make server` to spin up the api server.
+* Open a new terminal & run the command `make consumer` to spin up the kafka process.
+* Open a new terminal & run the command `make cronjob` to start the cron processes.
+* Open a new terminal & run the command `cli-go`. This will install the go-notify cli on your machine.
+* Cli is ready now to operate the different commands. Run the command `go-notify --help` to explore various commands.
 
-* Clone the repository.
-```bash
-git clone https://github.com/Harry-027/go-notify.git
-```
-* Run the command `make download`.
-* Run the command `make setup`.
-* CLI & Opentts engine setup is now ready to use.
-* Run the command `go-audio --help` to explore various operations.
+![CLI](https://github.com/Harry-027/go-notify/blob/master/snapshots/cli_snapshot.PNG "CLI")
 
-## Generate the audio files :-
+## Swagger :-
 ---
-* Run the command `go-audio aud --input=PATH_TO_PDF --output=PATH_TO_OUTPUT --voice=male|female`.
-* Default value for given flags ::
-    * input=./sample_pdf/test.pdf
-    * output=homeDir/audio-go/output
-    * voice=female
+* Once the server starts listening on port 3001, visit http://localhost:3001/swagger/ on browser for swagger definition.
+
+![Swagger](https://github.com/Harry-027/go-notify/blob/master/snapshots/swagger_snapshot.PNG "Swagger")
+
+## Monitoring (using Prometheus & Grafana):-
+---
+* Before spinning up Prometheus & Grafana for monitoring, replace the HOST_IP variable (under monitoring/prometheus/config.yml) with your machine IP.
+* Run the command `make monitor` to start Api-server monitoring.
+* Once the containers - Prometheus & Grafana are up, visit http://localhost:3000 on browser for Grafana dashboard.
+* Default credentials for Grafana: username - 'admin' , password - 'admin'
+* Once logged in Grafana, visit settings to select prometheus data source as target to view the dashboard.
+
+![Grafana](https://github.com/Harry-027/go-notify/blob/master/snapshots/grafana.PNG "Grafana")
+
+## Load Testing :-
+---
+* Before running load tests, replace the hostip variable value with your machine ip, in file loadtest.js
+* Run the command `make load-testing` to run the load tests.
+
+![LoadTesting_results](https://github.com/Harry-027/go-notify/blob/master/snapshots/loadTestingResults.PNG "LoadTesting_results")
+
+## Sample for a custom HTML received mail :-
+---
+
+![Mail](https://github.com/Harry-027/go-notify/blob/master/snapshots/mailSample.PNG "Mail")
