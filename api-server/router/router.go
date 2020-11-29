@@ -3,7 +3,7 @@ package router
 import (
 	"github.com/Harry-027/go-notify/api-server/handler"
 	"github.com/Harry-027/go-notify/api-server/middleware"
-	"github.com/arsmn/fiber-swagger/v2"
+	swagger "github.com/arsmn/fiber-swagger/v2"
 	"github.com/gofiber/fiber/v2"
 )
 
@@ -15,6 +15,7 @@ func SetupRoutes(app *fiber.App) {
 	auth.Post("/signup", handler.Signup)
 	auth.Post("/forgotPassword", handler.ForgotPassword)
 	auth.Post("/getNewPassword/:id", handler.GetNewPassword)
+
 	//Privacy
 	privacy := app.Group("/privacy", middleware.Protected())
 	privacy.Post("/updatePassword", handler.UpdatePassword)

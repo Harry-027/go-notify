@@ -31,7 +31,7 @@ type NewPassword struct {
 type ForgotPasswordPayload struct {
 	To      string
 	From    string
-	Text 	string
+	Text    string
 	Subject string
 }
 

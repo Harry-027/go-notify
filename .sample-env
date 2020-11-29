@@ -1,4 +1,5 @@
 SERVER_PORT=:3001
+SERVER_URL=http://localhost:3001
 DB_HOST=localhost
 DB_PORT=5432
 DB_USER=root
@@ -8,7 +9,7 @@ SECRET=secret
 BROKER=localhost:9092
 GROUP_ID=consumer-group-id
 TOPIC=my-topic
-MAILGUN_API_KEY=some-api-key   #Change the api key
-MAILGUN_DOMAIN_NAME=test.mailgun.org  #Change the domain name
-MAILGUN_FROM=<mailgun@test.mailgun.org> #Change the From name
+MAILGUN_API_KEY=f54b994134c2088b4d33a2f6c6c207f2-360a0b2c-3caa3c5c
+MAILGUN_DOMAIN_NAME=sandboxabdaa739e70140b690926289b3b991e2.mailgun.org
+MAILGUN_FROM=<mailgun@sandboxabdaa739e70140b690926289b3b991e2.mailgun.org>
 KAFKA_PROTOCOL=tcp

@@ -20,7 +20,7 @@ type Job struct {
 type Audit struct {
 	gorm.Model
 	To           string
-	FromUser     uint    `gorm:"not null"`
+	FromUser     uint `gorm:"not null"`
 	TemplateName string
 	TemplateID   uint
 }

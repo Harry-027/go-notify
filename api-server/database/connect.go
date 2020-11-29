@@ -12,7 +12,7 @@ import (
 
 // Connect with Postgres DB ...
 func ConnectDB() {
-	dbPort := config.GetConfig("DB_PORT")
+	dbPort := config.GetConfig(config.DB_PORT)
 	port, err := strconv.ParseUint(dbPort, 10, 32)
 	DB, err = gorm.Open("postgres", fmt.Sprintf("host=%s port=%d user=%s password=%s dbname=%s sslmode=disable", config.GetConfig("DB_HOST"), port, config.GetConfig("DB_USER"), config.GetConfig("DB_PASSWORD"), config.GetConfig("DB_NAME")))
 	if err != nil {

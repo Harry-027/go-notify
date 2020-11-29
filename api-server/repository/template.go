@@ -40,6 +40,21 @@ func GetTemplateById(id uint, userId int) (models.Template, error) {
 	return template, nil
 }
 
+func GetTemplateByName(id string, userId int) (models.Template, error) {
+	var template models.Template
+	dbc := DB.Where("name = ? AND user_id = ?", id, userId).Find(&template)
+
+	if dbc.Error != nil {
+		log.Println("An error occurred: ", dbc.Error.Error())
+		return models.Template{}, dbc.Error
+	}
+
+	if template.ID == 0 {
+		return models.Template{}, errors.New("an error occurred - template details not found")
+	}
+	return template, nil
+}
+
 func AddTemplate(template models.Template) error {
 	dbc := DB.Save(&template)
 	if dbc.Error != nil {
@@ -58,8 +73,8 @@ func UpdateTemplate(id uint, template models.Template) error {
 	return nil
 }
 
-func DeleteTemplate(id uint) error {
-	dbc := DB.Where("id = ?", id).Delete(&models.Template{})
+func DeleteTemplate(id string) error {
+	dbc := DB.Where("name = ?", id).Delete(&models.Template{})
 	if dbc.Error != nil {
 		log.Println("An error occurred while delete template transaction :: ", dbc.Error.Error())
 		return dbc.Error

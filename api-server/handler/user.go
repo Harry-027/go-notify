@@ -26,6 +26,7 @@ import (
 // @Param Body body []models.SwaggerClient true "Add the client details"
 // @Param Authorization header string true "Authentication header"
 // @Success 201 {object} config.ApiResponse{}
+// @Success 200 {object} config.ApiResponse{}
 // @Failure 400 {object} config.ApiResponse{}
 // @Security ApiKeyAuth
 // @Router /api/clients [post]
@@ -47,6 +48,7 @@ func AddClients(ctx *fiber.Ctx) error {
 	var dbSaveError []string
 	var msg string
 	var status string
+	var statusCode int
 	for _, client := range clients {
 		isValidPref := validator.ValidatePreference(client.Preference)
 		if isValidPref == false {
@@ -85,12 +87,14 @@ func AddClients(ctx *fiber.Ctx) error {
 	if len(dbSaveError) > 0 {
 		msg = strings.Join(dbSaveError, ",")
 		status = "Error"
+		statusCode = fiber.StatusBadRequest
 	} else {
 		status = "Ok"
 		msg = "Clients saved successfully ..."
+		statusCode = fiber.StatusCreated
 	}
 	resp := fiber.Map{"status": status, "message": msg}
-	return utils.ApiResponseWithCustomMsg(ctx, fiber.StatusCreated, resp)
+	return utils.ApiResponseWithCustomMsg(ctx, statusCode, resp)
 }
 
 // AddTemplate godoc
@@ -307,7 +311,7 @@ func GetSubsDetail(ctx *fiber.Ctx) error {
 // @Tags Update Template
 // @Accept json
 // @Produce json
-// @Param id path string true "template id"
+// @Param id path string true "template name"
 // @Param Authorization header string true "Authentication header"
 // @Success 200 {object} config.ApiResponse{}
 // @Failure 400 {object} config.ApiResponse{}
@@ -317,20 +321,16 @@ func GetSubsDetail(ctx *fiber.Ctx) error {
 // @Router /api/updateTemplate [put]
 func UpdateTemplate(ctx *fiber.Ctx) error {
 	var template models.Template
-	templateID, err := strconv.ParseUint(ctx.Params("id"), 10, 64)
-	if err != nil {
-		return utils.ApiResponse(ctx, fiber.StatusBadRequest, config.ApiConst[config.BAD_REQUEST])
-	}
-
+	templateName := ctx.Params("id")
 	userIdentifier := int(ctx.Locals("user_id").(float64))
 
-	template, _ = repository.GetTemplateById(uint(templateID), userIdentifier)
-	if template.ID != 0 {
-		return utils.ApiResponse(ctx, fiber.StatusNoContent, config.ApiConst[config.NO_CONTENT])
+	template, _ = repository.GetTemplateByName(templateName, userIdentifier)
+	if template.ID == 0 {
+		return utils.ApiResponse(ctx, fiber.StatusBadRequest, config.ApiConst[config.NO_CONTENT])
 	}
 
 	var templateDetails models.Template
-	err = ctx.BodyParser(&templateDetails)
+	err := ctx.BodyParser(&templateDetails)
 	if err != nil {
 		return utils.ApiResponse(ctx, fiber.StatusBadRequest, config.ApiConst[config.BAD_REQUEST])
 	}
@@ -339,7 +339,8 @@ func UpdateTemplate(ctx *fiber.Ctx) error {
 	if err != nil {
 		return utils.ApiResponse(ctx, fiber.StatusInternalServerError, config.ApiConst[config.INTERNAL_SERVER_ERROR])
 	}
-
+	cacheKey := fmt.Sprintf("Templates:%d",userIdentifier)
+	Cache.deleteKey(cacheKey)
 	return ctx.Status(fiber.StatusOK).JSON(fiber.Map{"status": "Ok", "message": "Template details updated successfully"})
 }
 
@@ -413,7 +414,7 @@ func DeleteClient(ctx *fiber.Ctx) error {
 // @Tags Delete Template
 // @Accept json
 // @Produce json
-// @Param id path string true "mail id"
+// @Param id path string true "Template name"
 // @Param Authorization header string true "Authentication header"
 // @Success 200 {object} config.ApiResponse{}
 // @Failure 204 {object} config.ApiResponse{}
@@ -422,13 +423,13 @@ func DeleteClient(ctx *fiber.Ctx) error {
 // @Router /api/deleteTemplate [delete]
 func DeleteTemplate(ctx *fiber.Ctx) error {
 	var template models.Template
-	name, _ := strconv.ParseUint(ctx.Params("id"), 10, 64)
+	name := ctx.Params("id")
 	userIdentifier := int(ctx.Locals("user_id").(float64))
-	template, _ = repository.GetTemplateById(uint(name), userIdentifier)
+	template, _ = repository.GetTemplateByName(name, userIdentifier)
 	if template.ID == 0 {
 		return utils.ApiResponse(ctx, fiber.StatusNoContent, config.ApiConst[config.NO_CONTENT])
 	}
-	err := repository.DeleteTemplate(template.ID)
+	err := repository.DeleteTemplate(template.Name)
 	if err != nil {
 		return utils.ApiResponse(ctx, fiber.StatusInternalServerError, config.ApiConst[config.INTERNAL_SERVER_ERROR])
 	}
@@ -612,27 +613,10 @@ func GetClients(ctx *fiber.Ctx) error {
 		}
 	}
 	for _, client := range clients {
-		details := fiber.Map{"Name": client.Name, "Email": client.MailId, "Phone": client.Phone, "Preference": client.Preference}
+		details := fiber.Map{"ClientId": client.ID, "Name": client.Name, "Email": client.MailId, "Phone": client.Phone, "Preference": client.Preference}
 		clientDetails = append(clientDetails, details)
 	}
 	return ctx.Status(fiber.StatusOK).JSON(clientDetails)
-}
-
-// Logout godoc
-// @Summary Logout
-// @Description Logout
-// @Tags Logout
-// @Accept json
-// @Produce json
-// @Param Authorization header string true "Authentication header"
-// @Success 200 {object} config.ApiResponse{}
-// @Security ApiKeyAuth
-// @Router /privacy/logout [post]
-func Logout(ctx *fiber.Ctx) error {
-	userIdentifier := int(ctx.Locals("user_id").(float64))
-	uuidDetail := ctx.Locals("uuid")
-	repository.InvalidateCurrentSession(userIdentifier, uuidDetail)
-	return ctx.SendStatus(fiber.StatusOK)
 }
 
 // ForgotPassword godoc
@@ -667,13 +651,13 @@ func ForgotPassword(ctx *fiber.Ctx) error {
 	cacheKey := uuid.NewV4().String()
 	cacheValue := user.Name
 	Cache.setDetails(cacheKey, cacheValue)
-	Cache.setExpiry(cacheKey, 3000)
+	Cache.setExpiry(cacheKey, 300)
 
 	content := fmt.Sprintf("Post new password on given link: http://localhost:3001/auth/getNewPassword/%s to update your password. Request is valid for 5 minutes.", cacheKey)
 	kafkaPayload := models.ForgotPasswordPayload{
 		To:      user.Name,
 		From:    config.GetConfig("MAILGUN_FROM"),
-		Text: content,
+		Text:    content,
 		Subject: "Password Reset",
 	}
 

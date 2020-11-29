@@ -33,4 +33,3 @@ func pipelineSetup(app *fiber.App) {
 	handler.KafkaConn = conn
 	handler.RedisPoolInit()
 }
-

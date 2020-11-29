@@ -92,4 +92,6 @@ const (
 	SUBS_SUCCESS               = "subsSuccess"
 	NO_CONTENT                 = "nocontent"
 	FORBIDDEN                  = "forbidden"
+	DB_PORT                    = "DB_PORT"
+	SERVER_URL                 = "SERVER_URL"
 )

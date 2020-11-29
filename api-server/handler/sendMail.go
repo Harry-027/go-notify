@@ -71,7 +71,7 @@ func SendMail(ctx *fiber.Ctx) error {
 		}
 		log.Println("template details :: ", template)
 
-		clientRecord, err = repository.GetClientById(detail.ClientId)
+		clientRecord, err = repository.GetClientByIdUserId(strconv.FormatUint(uint64(detail.ClientId), 10), userIdentifier)
 		if err != nil {
 			msg := fmt.Sprintf("Client with clientId %s not found !!", strconv.FormatUint(uint64(detail.ClientId), 10))
 			resp := fiber.Map{"status": "Ok", "message": msg}
@@ -148,7 +148,7 @@ func SendMail(ctx *fiber.Ctx) error {
 // @Router /api/scheduleMail [post]
 func ScheduleMail(ctx *fiber.Ctx) error {
 	var input []models.SendMailInput
-	var processedIds []string
+	var processedIds []fiber.Map
 	userIdentifier := int(ctx.Locals("user_id").(float64))
 	log.Println("user id :: ", userIdentifier)
 
@@ -197,15 +197,14 @@ func ScheduleMail(ctx *fiber.Ctx) error {
 			From:       user.Name,
 			ClientID:   clientRecord.ID,
 		}
-		err = repository.ScheduleJob(job)
+		job, err = repository.ScheduleJob(job)
 		if err != nil {
 			return utils.ApiResponse(ctx, fiber.StatusInternalServerError, config.ApiConst[config.INTERNAL_SERVER_ERROR])
 		}
-		processedIds = append(processedIds, strconv.FormatUint(uint64(detail.ClientId), 10))
+		msg := fiber.Map{"Status": "OK", "ClientId": strconv.FormatUint(uint64(detail.ClientId), 10), "JobId": strconv.FormatUint(uint64(job.ID), 10)}
+		processedIds = append(processedIds, msg)
 	}
-	msg := fmt.Sprintf("Processed clientIds for scheduled mail: %s", strings.Join(processedIds, ","))
-	resp := fiber.Map{"status": "OK", "message": msg}
-	return utils.ApiResponseWithCustomMsg(ctx, fiber.StatusOK, resp)
+	return utils.ApiResponseWithCustomMsg(ctx, fiber.StatusOK, processedIds)
 }
 
 // DeleteScheduleMail godoc

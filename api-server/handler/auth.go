@@ -67,7 +67,7 @@ func Login(ctx *fiber.Ctx) error {
 		UserID: user.ID,
 	}
 	repository.SaveUserAuth(auth)
-	return ctx.JSON(fiber.Map{"status": "success", "message": "Success login", "token": t})
+	return ctx.JSON(fiber.Map{"status": "Success", "message": "Success login", "token": t})
 }
 
 // Signup godoc
@@ -88,7 +88,7 @@ func Signup(ctx *fiber.Ctx) error {
 	if err != nil {
 		return utils.ApiResponse(ctx, fiber.StatusBadRequest, config.ApiConst[config.BAD_REQUEST])
 	}
-
+	log.Println("Signup Payload: ", input)
 	validationErr, result := validator.Validate(input)
 	log.Println("Validation result: ", result)
 
@@ -159,6 +159,23 @@ func UpdatePassword(ctx *fiber.Ctx) error {
 	}
 	repository.InvalidateAllSessions(userIdentifier)
 	return utils.ApiResponse(ctx, fiber.StatusOK, config.ApiConst[config.SUCCESS_PWD_CHANGE])
+}
+
+// Logout godoc
+// @Summary Logout
+// @Description Logout
+// @Tags Logout
+// @Accept json
+// @Produce json
+// @Param Authorization header string true "Authentication header"
+// @Success 200 {object} config.ApiResponse{}
+// @Security ApiKeyAuth
+// @Router /privacy/logout [post]
+func Logout(ctx *fiber.Ctx) error {
+	userIdentifier := int(ctx.Locals("user_id").(float64))
+	uuidDetail := ctx.Locals("uuid")
+	repository.InvalidateCurrentSession(userIdentifier, uuidDetail)
+	return ctx.Status(fiber.StatusOK).JSON(fiber.Map{"status": "Success", "message": "Logged out"})
 }
 
 // DeleteAccount godoc

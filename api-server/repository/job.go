@@ -5,13 +5,13 @@ import (
 	"log"
 )
 
-func ScheduleJob(job models.Job) error {
-	dbc := DB.Create(&job)
+func ScheduleJob(job models.Job) (models.Job, error) {
+	dbc := DB.Save(&job)
 	if dbc.Error != nil {
 		log.Println("An error occurred while scheduling job :: ", dbc.Error.Error())
-		return dbc.Error
+		return models.Job{}, dbc.Error
 	}
-	return nil
+	return job, nil
 }
 
 func UpdateJobStatus(id uint, status string) error {
