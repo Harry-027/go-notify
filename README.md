@@ -17,17 +17,32 @@ It facilitate users to register, send & schedule custom HTML mails for their cli
 ## Architecture diagram:
 ---
 
-![go-notify](https://github.com/Harry-027/go-notify/snapshots/system_diagram.png "go-notify")
+![Arch_Diagram](https://github.com/Harry-027/go-notify/blob/master/snapshots/system_diagram.png "Arch_Diagram")
 
 ## DB Schema:
 ---
 
-![DB_Schema](https://github.com/Harry-027/go-notify/snapshots/dbSchema.PNG "go-notify")
+![DB_Schema](https://github.com/Harry-027/go-notify/blob/master/snapshots/dbSchema.PNG "DB_Schema")
+
+## Features Included:
+---
+* Authentication & authorization using [JWT](https://jwt.io/).
+* Swagger included built using Swago[https://github.com/swaggo/swag]
+* Full proof auth features - signup, login, update password, forgot password, logout.
+* Cors, Helmet, Api-rate limiter included as middleware from security perspective.
+* Users can register their clients & custom HTML templates.
+* Mail scheduling (daily, weekly, monthly) using cron jobs.
+* Subscription & Payment (payment has been stubbed for now and can be replaced with any suitable payment gateway).
+* Api-server can be consumed by any client-side API, however for easy interaction - CLI (built using cobra) has been included.
 
 ## Installation & setup :-
 ---
-* Go,Docker & Make should be pre-installed.
+* Go,Docker,Docker compose & Make should be pre-installed.
+
 * Clone the repository.
+```bash
+git clone https://github.com/Harry-027/go-notify.git
+```
 * Run the command `make download`.
 * Run the command `make setup`.
 * CLI & Opentts engine setup is now ready to use.
