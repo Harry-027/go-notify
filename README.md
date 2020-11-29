@@ -33,7 +33,7 @@ It facilitate users to register, send & schedule custom HTML mails for their cli
 * Users can register their clients & custom HTML templates.
 * Mail scheduling (daily, weekly, monthly) using cron jobs.
 * Subscription & Payment (payment has been stubbed for now and can be replaced with any suitable payment gateway).
-* Api-server can be consumed by any client-side API, however for easy interaction - CLI (built using cobra) has been included.
+* Api-server can be consumed by any client-side API, however for easy interaction - CLI (built using [Cobra](https://github.com/spf13/cobra)) has been included.
 
 ## Installation & setup :-
 ---
