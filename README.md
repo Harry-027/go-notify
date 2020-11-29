@@ -27,7 +27,7 @@ It facilitate users to register, send & schedule custom HTML mails for their cli
 ## Features Included:
 ---
 * Authentication & authorization using [JWT](https://jwt.io/).
-* Swagger included built using [Swago](https://github.com/swaggo/swag)
+* Swagger included, built using [Swago](https://github.com/swaggo/swag)
 * Full proof auth features - signup, login, update password, forgot password, logout.
 * Cors, Helmet, Api-rate limiter included as middleware from security perspective.
 * Users can register their clients & custom HTML templates.
@@ -45,10 +45,10 @@ It facilitate users to register, send & schedule custom HTML mails for their cli
 * Run the command `make setup` (this will start the required docker containers - postgres, redis, apache kafka & zoo-keeper).
 * Run the command `docker ps` to ensure all the four containers are up & running.
 * Open a new terminal & run the command `make server` to spin up the api server.
-* Open a new terminal & run the command `make consumer` to spin up the kafka process.
+* Open a new terminal & run the command `make consumer` to spin up the kafka consumer.
 * Open a new terminal & run the command `make cronjob` to start the cron processes.
 * Open a new terminal & run the command `cli-go`. This will install the go-notify cli on your machine.
-* Cli is ready now to operate the different commands. Run the command `go-notify --help` to explore various commands.
+* Cli is now ready to operate. Run the command `go-notify --help` to explore various commands.
 
 ![CLI](https://github.com/Harry-027/go-notify/blob/master/snapshots/cli_snapshot.PNG "CLI")
 
@@ -64,13 +64,13 @@ It facilitate users to register, send & schedule custom HTML mails for their cli
 * Run the command `make monitor` to start Api-server monitoring.
 * Once the containers - Prometheus & Grafana are up, visit http://localhost:3000 on browser for Grafana dashboard.
 * Default credentials for Grafana: username - 'admin' , password - 'admin'
-* Once logged in Grafana, visit settings to select prometheus data source as target to view the dashboard.
+* Once logged into Grafana, visit settings to select prometheus data source as target to view the dashboard.
 
 ![Grafana](https://github.com/Harry-027/go-notify/blob/master/snapshots/grafana.PNG "Grafana")
 
 ## Load Testing :-
 ---
-* Before running load tests, replace the hostip variable value with your machine ip, in file loadtest.js
+* Before running load tests, replace the hostip variable value with your machine ip, under loadtesting/tests/loadtests.js
 * Run the command `make load-testing` to run the load tests.
 
 ![LoadTesting_results](https://github.com/Harry-027/go-notify/blob/master/snapshots/loadTestingResults.PNG "LoadTesting_results")
