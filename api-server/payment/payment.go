@@ -15,7 +15,7 @@ var SubsEnum = map[string]int{
 	"platinum": 1000,
 }
 
-// Make payment ...
+// Make payment (stubbed for now)...
 func MakePayment(subs models.SubscriptionInput) (int, error) {
 	count, ok := SubsEnum[strings.ToLower(subs.SubscriptionType)]
 	if !ok {

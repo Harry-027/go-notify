@@ -1,3 +1,4 @@
 To run the Prometheus and Grafana monitoring, run the below command under monitoring directory :
 
-docker-compose up -d --build
+1) Before spinning up monitoring replace the HOST_IP variable (under monitoring/prometheus/config.yml) with your machine IP.
+2) Run the command - docker-compose up -d --build (under monitoring directory)

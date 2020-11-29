@@ -29,7 +29,11 @@ type Config struct {
 }
 
 func fetchBasePath() string {
-	return config.GetConfig(config.SERVER_URL)
+	basePath := config.GetConfig(config.SERVER_URL)
+	if basePath != "" {
+		return basePath
+	}
+	return "http://localhost:3001" // default server url for local setup
 }
 
 func makeCallToServer(methodType, callType, url string, token string, data []byte) (string, []byte) {

@@ -5,6 +5,7 @@ type ApiResponse struct {
 	Message string `json:"message"`
 }
 
+// map for Api response ...
 var ApiConst = map[string]ApiResponse{
 	SIGNUP_SUCCESS: {
 		Status:  "Success",

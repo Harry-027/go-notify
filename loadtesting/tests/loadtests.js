@@ -13,7 +13,9 @@ export const options = {
 };
 
 export default function() {
-    var hostip = '192.168.119.1:3001'
+    var hostip = 'your machine ip' // where the api server is listening
+    var port = ':3001'
+    var hostAddr = `${hostip}${port}`
     var commonParam = {
         headers: {
             'Content-Type': 'application/json',
@@ -22,7 +24,7 @@ export default function() {
 
     for (var id = 1; id <= 100; id++) {
         var rnd = Math.random().toString(36).replace(/[^a-z]+/g, '')
-        var signupUrl = `http://${hostip}/auth/signup`;
+        var signupUrl = `http://${hostAddr}/auth/signup`;
         var mail = `aaa${id}${rnd}@gmail.com`
         var signupPayload = JSON.stringify({
             email: mail,
@@ -44,7 +46,7 @@ export default function() {
 
         // login process ::
         var token = ''
-        var loginurl = `http://${hostip}/auth/login`;
+        var loginurl = `http://${hostAddr}/auth/login`;
         var loginpayload = JSON.stringify({
             email: mail,
             password: 'bbb',
@@ -63,7 +65,7 @@ export default function() {
         }
 
         // Fetch the users ::
-        var fetchUserUrl = `http://${hostip}/api/users`;
+        var fetchUserUrl = `http://${hostAddr}/api/users`;
         var userParam = {
             headers: {
                 'Content-Type': 'application/json',

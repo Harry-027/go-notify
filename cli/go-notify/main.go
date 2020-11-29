@@ -8,7 +8,7 @@ import (
 
 func main() {
 	err := godotenv.Load("./../../.env")
-	err = cmd.RootCmd.Execute() // Execute the root command
+	err  = cmd.RootCmd.Execute() // Execute the root command
 	if err != nil {
 		log.Println("An error occurred: ", err)
 		panic(err)

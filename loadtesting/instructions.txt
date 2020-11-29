@@ -1,3 +1,4 @@
 To run the load test, run the below command under loadtesting directory :
 
-docker-compose run k6 run ./tests/loadtests.js
+1) Before running load testing, replace the hostip variable value with your machine ip, in file loadtest.js
+2) Run the command - docker-compose run k6 run ./tests/loadtests.js (under loadtesting directory)

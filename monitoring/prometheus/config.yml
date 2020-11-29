@@ -14,4 +14,4 @@ scrape_configs:
     # will give application metrics
     metrics_path: /metrics
     static_configs:
-      - targets: ['192.168.64.1:3001']
+      - targets: ['HOST_IP:3001']
