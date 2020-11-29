@@ -79,3 +79,16 @@ It facilitate users to register, send & schedule custom HTML mails for their cli
 ---
 
 ![Mail](https://github.com/Harry-027/go-notify/blob/master/snapshots/mailSample.PNG "Mail")
+
+# Contributing :beers:
+---
+* Performance improvements, bug fixes, better design approaches are welcome. Please discuss any changes by raising an issue, beforehand.
+
+# Maintainer :sunglasses:
+---
+[Harish Bhawnani Linkedin](https://www.linkedin.com/in/harish-bhawnani-86728457)
+[Email](harishmmp@gmail.com)
+
+## License
+---
+[MIT](LICENSE) © Harish Bhawnani
