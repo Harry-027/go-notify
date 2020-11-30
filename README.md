@@ -6,13 +6,13 @@ It facilitate users to register, send & schedule custom HTML mails for their cli
 ## Built using rich tech-stack:
 ---
 * Api-server built using [Go-fiber](https://gofiber.io/).
-* Using [Apache Kafka](https://kafka.apache.org/) as a message broker.
-* Using [Postgres](https://www.postgresql.org/) as database.
-* Using [Redis](https://redis.io/) as cache.
+* [Apache Kafka](https://kafka.apache.org/) as a message broker.
+* [Postgres](https://www.postgresql.org/) as database.
+* [Redis](https://redis.io/) as cache.
 * Client CLI built using [Cobra](https://github.com/spf13/cobra).
-* Using [Mailgun](https://www.mailgun.com/) as Email service.
-* Using [K6](https://k6.io/) for load testing.
-* Using [Prometheus](https://prometheus.io/) & [Grafana](https://grafana.com/) for Api-server monitoring.
+* [Mailgun](https://www.mailgun.com/) as Email service.
+* [K6](https://k6.io/) for load testing.
+* [Prometheus](https://prometheus.io/) & [Grafana](https://grafana.com/) for Api-server monitoring.
 
 ## Architecture diagram:
 ---
