@@ -1,6 +1,6 @@
 // Payload Sample for various commands: -JSON payload:
 
-// AddClient command
+// Payload for AddClient command
 [{
     "name": "Jon",
     "mailID": "Jon@gmail.com",
@@ -13,7 +13,7 @@
     "preference": "weekly"
 }]
 
-// Send Mail or Schedule Mail command
+// Payload for Send Mail or Schedule Mail command
 [{
 "templateId":2,
 "clientId":7
@@ -22,7 +22,7 @@
 "clientId":8
 }]
 
-// Add template or Update template commamd
+// Payload Add template or Update template commamd
 {
     "name": "TemplateName",
     "subject": "Lets start campaigning",

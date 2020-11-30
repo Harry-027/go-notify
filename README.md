@@ -1,6 +1,6 @@
 # go-notify
 ---
-An email automation tool written in [Golang](https://golang.org/).
+An email automation solution written in [Golang](https://golang.org/).
 It facilitate users to register, send & schedule custom HTML mails for their clients.
 
 ## Built using rich tech-stack:
