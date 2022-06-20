@@ -1,6 +1,8 @@
 package main
 
 import (
+	"log"
+
 	"github.com/Harry-027/go-notify/api-server/config"
 	"github.com/Harry-027/go-notify/api-server/database"
 	_ "github.com/Harry-027/go-notify/api-server/docs"
@@ -9,8 +11,6 @@ import (
 	"github.com/Harry-027/go-notify/api-server/router"
 	"github.com/Harry-027/go-notify/api-server/utils"
 	"github.com/gofiber/fiber/v2"
-	_ "github.com/jinzhu/gorm/dialects/postgres"
-	"log"
 )
 
 func main() {

@@ -1,11 +1,11 @@
 package main
 
 import (
-	"github.com/Harry-027/go-notify/api-server/database"
-	"github.com/Harry-027/go-notify/cron/cron_jobs"
-	_ "github.com/jinzhu/gorm/dialects/postgres"
 	"os"
 	"os/signal"
+
+	"github.com/Harry-027/go-notify/api-server/database"
+	"github.com/Harry-027/go-notify/cron/cron_jobs"
 )
 
 func main() {

@@ -45,5 +45,5 @@ func SetupRoutes(app *fiber.App) {
 	user.Post("/deleteScheduleMail", handler.DeleteScheduleMail)
 	user.Get("/checkAuditLog", handler.CheckAuditLog)
 	// swagger
-	app.Get("/swagger/*", swagger.Handler) // default
+	app.Get("/swagger/*", swagger.HandlerDefault) // default
 }

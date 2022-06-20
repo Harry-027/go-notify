@@ -3,8 +3,9 @@ package repository
 import (
 	"errors"
 	"fmt"
-	"github.com/Harry-027/go-notify/api-server/models"
 	"log"
+
+	"github.com/Harry-027/go-notify/api-server/models"
 )
 
 func GetClientById(id uint) (models.Client, error) {
@@ -65,7 +66,7 @@ func DeleteClientById(id uint) error {
 }
 
 func UpdateClientById(id uint, clientDetails models.Client) error {
-	dbc := DB.Model(&models.Client{}).Where("id = ?", id).Update(clientDetails)
+	dbc := DB.Model(&models.Client{}).Where("id = ?", id).Updates(clientDetails)
 	if dbc.Error != nil {
 		log.Println("An error occurred :: ", dbc.Error.Error())
 		return dbc.Error

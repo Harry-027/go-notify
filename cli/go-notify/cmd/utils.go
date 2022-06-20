@@ -4,13 +4,14 @@ import (
 	"bytes"
 	"encoding/json"
 	"fmt"
-	"github.com/Harry-027/go-notify/api-server/config"
 	"io/ioutil"
 	"log"
 	"net/http"
 	"os"
 	ussr "os/user"
 	"path"
+
+	"github.com/Harry-027/go-notify/api-server/config"
 )
 
 type ApiResponse struct {
@@ -79,10 +80,15 @@ func configPath() string {
 	return path.Join(usr.HomeDir, cfgFile)
 }
 
-func saveConfig(c Config) error {
+func saveConfig(c Config) (err error) {
 	jsonC, _ := json.Marshal(c)
-	err := ioutil.WriteFile(configPath(), jsonC, os.ModeAppend)
-	return err
+	_, err = os.Create(configPath())
+	if err != nil {
+		return
+	}
+
+	err = os.WriteFile(configPath(), jsonC, os.ModeAppend)
+	return
 }
 
 func readConfig() Config {
