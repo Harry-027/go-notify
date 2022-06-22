@@ -4,14 +4,12 @@ import (
 	"bytes"
 	"encoding/json"
 	"fmt"
+	"github.com/Harry-027/go-notify/api-server/config"
 	"io/ioutil"
 	"log"
 	"net/http"
 	"os"
-	ussr "os/user"
 	"path"
-
-	"github.com/Harry-027/go-notify/api-server/config"
 )
 
 type ApiResponse struct {
@@ -76,19 +74,17 @@ func makeAuthCall(methodType, callType, uri, token string, data *bytes.Buffer) (
 
 func configPath() string {
 	cfgFile := ".go-notify-config"
-	usr, _ := ussr.Current()
-	return path.Join(usr.HomeDir, cfgFile)
+	pt, err := os.Getwd()
+	if err != nil {
+		log.Fatalf("Unable to get current working directory: %s", err)
+	}
+
+	return path.Join(pt, cfgFile)
 }
 
 func saveConfig(c Config) (err error) {
 	jsonC, _ := json.Marshal(c)
-	_, err = os.Create(configPath())
-	if err != nil {
-		return
-	}
-
-	err = os.WriteFile(configPath(), jsonC, os.ModeAppend)
-	return
+	return ioutil.WriteFile(configPath(), jsonC, 0777)
 }
 
 func readConfig() Config {

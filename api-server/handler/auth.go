@@ -58,7 +58,7 @@ func Login(ctx *fiber.Ctx) error {
 	claims["uuid"] = newUuid
 	claims["exp"] = time.Now().Add(time.Hour * 24).Unix()
 
-	t, err := token.SignedString([]byte(config.GetConfig(config.SECRET)))
+	t, err := token.SignedString([]byte(config.GetConfig(config.JWT_SECRET)))
 	if err != nil {
 		return utils.ApiResponse(ctx, fiber.StatusInternalServerError, config.ApiConst[config.INTERNAL_SERVER_ERROR])
 	}

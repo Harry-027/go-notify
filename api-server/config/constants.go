@@ -95,4 +95,5 @@ const (
 	FORBIDDEN                  = "forbidden"
 	DB_PORT                    = "DB_PORT"
 	SERVER_URL                 = "SERVER_URL"
+	JWT_SECRET                 = "JWT_SECRET"
 )

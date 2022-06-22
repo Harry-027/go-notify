@@ -13,3 +13,4 @@ MAILGUN_API_KEY=some-api-key // replace this with real credentials
 MAILGUN_DOMAIN_NAME=mydomain.mailgun.org // replace this with real credentials
 MAILGUN_FROM=<mailgun@mydomain.mailgun.org> // replace this with real credentials
 KAFKA_PROTOCOL=tcp
+JWT_SECRET=secret
