@@ -1,1 +1,0 @@
-{"buildTargets":["cli-go","consumer","cronjob","download","load-testing","monitor","server","setup"],"launchTargets":[],"customConfigurationProvider":{"workspaceBrowse":{"browsePath":[],"compilerArgs":[]},"fileIndex":[]}}
