@@ -2,8 +2,9 @@ package repository
 
 import (
 	"errors"
-	"github.com/Harry-027/go-notify/api-server/models"
 	"log"
+
+	"github.com/Harry-027/go-notify/api-server/models"
 )
 
 func GetTemplate(id uint) (models.Template, error) {
@@ -65,7 +66,7 @@ func AddTemplate(template models.Template) error {
 }
 
 func UpdateTemplate(id uint, template models.Template) error {
-	dbc := DB.Model(&models.Template{}).Where("id = ?", id).Update(template)
+	dbc := DB.Model(&models.Template{}).Where("id = ?", id).Updates(template)
 	if dbc.Error != nil {
 		log.Println("An error occurred :: ", dbc.Error.Error())
 		return dbc.Error

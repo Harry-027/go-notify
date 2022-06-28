@@ -7,6 +7,7 @@ networks:
 services:
   zookeeper-server:
     image: 'bitnami/zookeeper:latest'
+    container_name: gonotify_zookeeper
     networks:
       - notification-system
     ports:
@@ -15,6 +16,7 @@ services:
       - ALLOW_ANONYMOUS_LOGIN=yes
   kafka-server:
     image: 'bitnami/kafka:latest'
+    container_name: gonotify_kafka
     networks:
       - notification-system
     ports:
@@ -25,12 +27,13 @@ services:
       - ALLOW_PLAINTEXT_LISTENER=yes
     depends_on:
       - zookeeper-server
-  postgres12:
-    image: postgres:12-alpine
+  postgres13:
+    image: postgres:latest
+    container_name: gonotify_db
     networks:
       - notification-system
     ports:
-      - "5432:5432"
+      - "5430:5432"
     environment:
       POSTGRES_PASSWORD: secret
       POSTGRES_USER: root
@@ -38,9 +41,10 @@ services:
       - pgdata:/var/lib/postgresql/data
   redis:
     image: redis
+    container_name: gonotify_cache
     networks:
       - notification-system
     ports:
-      - "6379:6379"
+      - "6370:6379"
 volumes:
   pgdata:

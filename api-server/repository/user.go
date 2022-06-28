@@ -1,9 +1,10 @@
 package repository
 
 import (
-	"github.com/Harry-027/go-notify/api-server/models"
-	"github.com/jinzhu/gorm"
 	"log"
+
+	"github.com/Harry-027/go-notify/api-server/models"
+	"gorm.io/gorm"
 )
 
 var DB *gorm.DB

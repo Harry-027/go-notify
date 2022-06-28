@@ -9,7 +9,6 @@ import (
 	"log"
 	"net/http"
 	"os"
-	ussr "os/user"
 	"path"
 )
 
@@ -75,14 +74,17 @@ func makeAuthCall(methodType, callType, uri, token string, data *bytes.Buffer) (
 
 func configPath() string {
 	cfgFile := ".go-notify-config"
-	usr, _ := ussr.Current()
-	return path.Join(usr.HomeDir, cfgFile)
+	pt, err := os.Getwd()
+	if err != nil {
+		log.Fatalf("Unable to get current working directory: %s", err)
+	}
+
+	return path.Join(pt, cfgFile)
 }
 
-func saveConfig(c Config) error {
+func saveConfig(c Config) (err error) {
 	jsonC, _ := json.Marshal(c)
-	err := ioutil.WriteFile(configPath(), jsonC, os.ModeAppend)
-	return err
+	return ioutil.WriteFile(configPath(), jsonC, 0777)
 }
 
 func readConfig() Config {
