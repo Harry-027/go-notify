@@ -47,7 +47,7 @@ It facilitate users to register, send & schedule custom HTML mails for their cli
 * Open a new terminal & run the command `make server` to spin up the api server.
 * Open a new terminal & run the command `make consumer` to spin up the kafka consumer.
 * Open a new terminal & run the command `make cronjob` to start the cron processes.
-* Open a new terminal & run the command `cli-go`. This will install the go-notify cli on your machine.
+* Open a new terminal & run the command `make cli-go`. This will install the go-notify cli on your machine.
 * Cli is now ready to operate. Run the command `go-notify --help` to explore various commands.
 
 ![CLI](https://github.com/Harry-027/go-notify/blob/master/snapshots/cli_snapshot.PNG "CLI")
